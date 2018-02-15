@@ -4,6 +4,7 @@ Front-End
 2. run ng serve to start the front-end(remember to be in angular folder)
 
 MongoDb
+
 1.navigate into your MongoDb bin and run mongod to start the Mongo server
 
 Backend
