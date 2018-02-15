@@ -1,0 +1,24 @@
+<div class="example-container">
+  <mat-card>
+    <h2>Change Password</h2>
+    <form [formGroup]="newPasswordForm" (ngSubmit)="resetPassword()" novalidate>
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput type="newPassword" class="form-control" required formControlName="newPassword" placeholder="New Password">
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput type="repeatPassword" class="form-control"
+                 name="repeatPassword" required id="repeatPassword" formControlName="repeatPassword"
+                 placeholder="Repeat Password">
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <button mat-raised-button color="primary" type="submit">Update Password</button>
+      </div>
+    </form>
+
+
+  </mat-card>
+</div>

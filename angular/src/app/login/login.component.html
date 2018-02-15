@@ -1,0 +1,27 @@
+<div class="example-container">
+  <mat-card>
+    <h2>Login</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput type="email" class="form-control" required formControlName="email" placeholder="Email">
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput type="password" class="form-control"
+                 name="password" required id="password" formControlName="password"
+                 placeholder="Password">
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <button mat-raised-button color="primary" type="submit" (click)="login()">Login</button>
+      </div>
+      <div class="alert" [hidden]="warningShow">
+        {{message}}   </div>
+    </form>
+    <p class="small">Don't have an account yet? Sign up <a routerLink="/signup">here</a></p>
+    <p class="small">Forgot password <a routerLink="/forgot">here</a></p>
+
+  </mat-card>
+</div>

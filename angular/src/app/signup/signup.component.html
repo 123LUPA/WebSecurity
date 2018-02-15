@@ -1,0 +1,30 @@
+<div class="example-container">
+  <mat-card>
+    <h2>Login</h2>
+    <form [formGroup]="signupForm" (ngSubmit)="signup()" novalidate>
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput type="companyName" class="form-control" required formControlName="companyName" placeholder="Company name">
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput type="email" class="form-control" required formControlName="email" placeholder="Email">
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput type="password" class="form-control"
+                 name="password" required id="password" formControlName="password"
+                 placeholder="Password">
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <re-captcha (resolved)="resolved($event)" siteKey="6LeAUkYUAAAAAGEZOgG1nP60bCUxw70M-EFn7VQr"></re-captcha>
+        <button mat-raised-button color="primary" type="submit">Sign Up!</button>
+      </div>
+    </form>
+  </mat-card>
+
+
+</div>
