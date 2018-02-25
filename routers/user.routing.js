@@ -35,7 +35,7 @@ let userRouter = express.Router();
  *
  */
 userRouter.get('/', function(req, res) {
-    userController.getUsers().then((err, users)=>{
+    userController.getUsers().then((users, err)=>{
         if(err)
             console.error(err);
         res.json({users: users });

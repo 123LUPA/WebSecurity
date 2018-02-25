@@ -43,8 +43,6 @@ router.post('/forgot',function (req,res,next) {
                     res.status(200).send({text: 'all was done'});
 
                 });
-
-
             });
         },
         function(token, user, done) {
