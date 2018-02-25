@@ -75,6 +75,35 @@ userRouter.post('/signup', validateCaptcha, (req, res)=> {
 
 /**
  * @swagger
+ * /users/signupDev:
+ *  post:
+ *      tags:
+ *      - user
+ *      summary: create user ONLY DEV!
+ *      description: create user without captcha (ONLY IN DEV)
+ *      parameters:
+ *      - in: body
+ *        name: user
+ *        schema:
+ *           $ref: '#/definitions/User'
+ *      responses:
+ *          201:
+ *              description: ok
+ *
+ */
+userRouter.post('/signupDev', (req, res)=> {
+    userController.signUpUser(req.body).then((created, err)=>{
+        if(err)
+            res.status(400).send(err);
+        res.send(created);
+    }).catch((e)=>{
+        res.status(400).send(e.errmsg);
+    });
+});
+
+
+/**
+ * @swagger
  * /users/login/{email}/{password}:
  *  get:
  *      tags:
@@ -104,8 +133,30 @@ userRouter.get('/login/:email/:password', (req, res)=>{
         });
 
     }, (err)=>{
+        if(err.lock){
+            return res.json({ success: false, message: 'Locked until:' + err.lock});
+        }
         res.status(404).send('email or password is incorrect ');
     })
 });
+
+/**
+ * @swagger
+ * /users/forgot/{email}:
+ *  get:
+ *      tags:
+ *      - user
+ *      summary: login user
+ *      description: login user
+ *      parameters:
+ *      - in: path
+ *        name: email
+ *        schema:
+ *           type: string
+ *      responses:
+ *          201:
+ *              description: ok
+ *
+ */
 
 export default userRouter;

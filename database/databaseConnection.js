@@ -1,4 +1,4 @@
-import url from '../config';
+import config from '../config';
 import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 
@@ -9,7 +9,7 @@ class DbConnection{
         this.connectToDb();
     }
     connectToDb(){
-        mongoose.connect(url,
+        mongoose.connect(config.mongoUrl,
              (err)=> {if(err) throw err;
             });
     }

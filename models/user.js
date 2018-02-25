@@ -40,7 +40,11 @@ class UserModel{
             },
             endTime: {
                 type: Date
-            }
+            },
+            lockUntil: {
+                type:Date,
+                default: new Date()
+            },
         }, {versionKey: false})
     }
     getModel(){

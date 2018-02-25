@@ -17,64 +17,6 @@ var request = require('request');
 
 const saltRounds = 10;
 
-/* GET home page. */
-router.post('/login', function(req, res) {
-    // find the user
-    User.findOne({
-        email: req.body.email
-    }, function(err, user) {
-
-        if (err) throw err;
-
-        if (!user) {
-            return res.status(404).send('User not registered yet!');
-        }
-
-        else if((user.lockUntil<new Date())==true){
-
-            if (bcrypt.compareSync(req.body.password, user.password)==false) {
-
-                user.loginAttempts+=1;
-
-                if(user.loginAttempts>=3){
-
-                    var lock =  new Date().setMinutes(new Date().getMinutes()+5);
-                    user.lockUntil = lock;
-                    user.loginAttempts = 0;
-
-                }
-
-                user.save(function(err) {
-                });
-
-                return res.json({ success: false, message: 'Authentication failed. Wrong user name or password.' });
-            } else {
-                user.loginAttempts = 0;
-
-                user.save(function(err) {
-                });
-
-                const payload = {
-                    email: user.email
-                };
-                var token = jwt.sign(payload, config.secret, {
-                    expiresIn: 1440
-                });
-                // return the information including token as JSON
-                return res.json({
-                    success: true,
-                    message: 'Enjoy your token!',
-                    token: token
-                });
-
-            }
-        }
-        return res.json({ success: false, message: 'Locked until:' + user.lockUntil.toLocaleString()});
-
-
-
-    });
-});
 
 
 
@@ -142,10 +84,7 @@ router.get('/reset/:token', function(req, res) {
             return res.redirect('http://localhost:4200/#/forgot');
         }
 
-
         return res.redirect('http://' + 'localhost:4200/#' + '/reset/'+ req.params.token);
-
-
     });
 });
 

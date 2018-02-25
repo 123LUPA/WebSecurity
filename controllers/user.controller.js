@@ -28,19 +28,40 @@ class UserController{
             this.userModel.findOne({
                 email: data.email
             }, (err, user)=>{
-                console.log(err, user, data.email);
                 if(err) reject(err);
                 //if there is no user return false
                 if(!user)
                     return reject(false);
-                //check if password is not correct
-                if(this.comparePassword(data.password, user.password))
-                    return resolve(generateToken(user));
+                //check if user is not lock
+                if(user.lockUntil < new Date()){
+                    //check if password is not correct
+                    if(this.comparePassword(data.password, user.password)){
+                        return resolve(generateToken(user));
+                    }else{
+                        //add failed login attam
+                        this.addFailedLoginAttempt(user).then(()=>{
+                            return reject(false);
+                        },()=>{
+                            return reject(false);
+                        });
+                    }
+                }else{
+                    return reject({lock : user.lockUntil.toLocaleString()});
+                }
+
 
             })
         });
+    }
 
-
+    addFailedLoginAttempt(user){
+        user.loginAttempts+=1;
+        if(user.loginAttempts>=3){
+            let lock =  new Date().setMinutes(new Date().getMinutes()+5);
+            user.lockUntil = lock;
+            user.loginAttempts = 0;
+        }
+       return user.save();
     }
     comparePassword(plainPassword, hashedPassword){
         return bcrypt.compareSync(plainPassword, hashedPassword)
