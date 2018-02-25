@@ -5,11 +5,15 @@ Front-End
 
 MongoDb
 
-1.navigate into your MongoDb bin and run mongod to start the Mongo server
+1. In order to run application in dev env you have to start MongoDB locally
 
 Backend
 1. run npm install in program folder
-2. run www to start your server
+2. npm run dev (just for development)
+
+Documentation
+1. run app
+2. http://localhost:PORT/api-docs/
 
 Forgot Password Recovery
 1. Navigate to https://ethereal.email/login
