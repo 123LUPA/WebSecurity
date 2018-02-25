@@ -60,7 +60,6 @@ router.post('/login', function(req, res) {
                 var token = jwt.sign(payload, config.secret, {
                     expiresIn: 1440
                 });
-
                 // return the information including token as JSON
                 return res.json({
                     success: true,
@@ -77,45 +76,6 @@ router.post('/login', function(req, res) {
     });
 });
 
-router.post('/signup',function (req,res,next) {
-
-
-    if(req.body.captcha === undefined || req.body.captcha === '' || req.body.captcha === null)
-    {
-        return res.json({"responseError" : "Please select captcha first"});
-    }
-    const secretKey = "6LeAUkYUAAAAAPlygY7k5OjnXziUyFqOQolcLt0l";
-
-    const verificationURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body.captcha + "&remoteip=" + req.connection.remoteAddress;
-
-    request(verificationURL,function(error,response,body) {
-        body = JSON.parse(body);
-
-        if(body.success !== undefined && !body.success) {
-            return res.json({"responseError" : "Failed captcha verification"});
-        }
-
-        var salt = bcrypt.genSaltSync(saltRounds);
-        var hashedPassword = bcrypt.hashSync(req.body.password, salt);
-
-        var user = new User({
-            companyName: req.body.companyName,
-            email: req.body.email,
-            password: hashedPassword
-        });
-
-        user.save(function(err) {
-
-            if (err) {
-
-                res.json({success:false})
-
-            }
-            console.log('User saved successfully');
-            res.json({ success: true });
-        });
-    });
-});
 
 
 router.post('/forgot',function (req,res,next) {

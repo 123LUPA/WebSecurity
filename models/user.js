@@ -43,8 +43,11 @@ class UserModel{
             }
         }, {versionKey: false})
     }
+    getModel(){
+        return this.userModel;
+    }
 }
-const userModel =  new UserModel().userModel;
+const userModel =  new UserModel();
 
 export default userModel;
 

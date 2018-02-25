@@ -12,7 +12,7 @@ export class SignupService {
   signUserIn (User,captcha) {
 
     this.http
-      .post(this.testUrl +'signup', {companyName: User.companyName,email: User.email, password: User.password,captcha:captcha}, )
+      .post(this.testUrl +'users/signup', {companyName: User.companyName,email: User.email, password: User.password,captcha:captcha}, )
       .subscribe(
         // Successful responses call the first callback.
         data => {

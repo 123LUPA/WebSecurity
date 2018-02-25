@@ -14,10 +14,10 @@ export class LoginService {
   }
 
   logUserIn (email, pass) {
-
+    let url = this.testUrl + 'users/login/' + email + '/' + pass;
     return new Promise((resolve, reject) =>{
     this.http
-      .post(this.testUrl +'login', {email: email, password: pass}, )
+      .get(url)
       .subscribe(
         // Successful responses call the first callback.
         data => {
