@@ -14,31 +14,32 @@ export class LoginService {
   }
 
   logUserIn (email, pass) {
-    let url = this.testUrl + 'users/login/' + email + '/' + pass;
     return new Promise((resolve, reject) =>{
-    this.http
-      .get(url)
-      .subscribe(
-        // Successful responses call the first callback.
-        data => {
+      this.http
 
-          var message = data['message']
-           resolve(message);
 
-          if(data['success']) {
-            let token = data['token'];
-            localStorage.setItem('token', token );
-            localStorage.setItem('email', email);
-             this.router.navigate(['home']);
-             resolve(data['message']);
+        .post(this.testUrl +'users/login', {email: email, password: pass}, )
+        .subscribe(
+          // Successful responses call the first callback.
+          data => {
 
+            var message = data['message']
+            resolve(message);
+
+            if(data['success']) {
+              let token = data['token'];
+              localStorage.setItem('token', token );
+              localStorage.setItem('email', email);
+              this.router.navigate(['home']);
+              resolve(data['message']);
+
+            }
+          },
+          error => { // Error
+            reject(error);
           }
-        },
-        error => { // Error
-          reject(error);
-        }
-      );
-      })
+        );
+    })
   }
 
   logout(){
