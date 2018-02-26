@@ -56,7 +56,7 @@ class UserController{
 
     addFailedLoginAttempt(user){
         user.loginAttempts+=1;
-        if(user.loginAttempts>=3){
+        if(user.loginAttempts>3){
             let lock =  new Date().setMinutes(new Date().getMinutes()+5);
             user.lockUntil = lock;
             user.loginAttempts = 0;

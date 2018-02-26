@@ -20,5 +20,5 @@ const appRoutes: Routes = [
 ];
 
 
-export const routing = RouterModule.forRoot(appRoutes, { useHash: true,enableTracing: true} // <-- debugging purposes only
+export const routing = RouterModule.forRoot(appRoutes, { useHash: true,enableTracing: false} // <-- debugging purposes only
 );

@@ -23,6 +23,21 @@ let userRouter = express.Router();
 
 /**
  * @swagger
+ * definitions:
+ *  Login:
+ *      type: object
+ *      required:
+ *      - email
+ *      - password
+ *      properties:
+ *          email:
+ *              type: string
+ *          password:
+ *              type: string
+ */
+
+/**
+ * @swagger
  * /users:
  *  get:
  *      tags:
@@ -104,28 +119,25 @@ userRouter.post('/signupDev', (req, res)=> {
 
 /**
  * @swagger
- * /users/login/{email}/{password}:
- *  get:
+ * /users/login:
+ *  post:
  *      tags:
- *      - user
- *      summary: login user
- *      description: login user
+ *      - Login
+ *      summary: Login with token creation
+ *      description: Login the user
  *      parameters:
- *      - in: path
- *        name: email
+ *      - in: body
+ *        name: login
  *        schema:
- *           type: string
- *      - in: path
- *        name: password
- *        schema:
- *           type: string
+ *           $ref: '#/definitions/Login'
  *      responses:
  *          201:
  *              description: ok
  *
  */
-userRouter.get('/login/:email/:password', (req, res)=>{
-    userController.loginUser(req.params).then((data)=>{
+
+userRouter.post('/login', (req, res)=>{
+    userController.loginUser(req.body).then((data)=>{
         res.json({
             success: true,
             message: 'Enjoy your token!',
