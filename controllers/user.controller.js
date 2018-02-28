@@ -3,17 +3,18 @@ import bcrypt from 'bcrypt-nodejs';
 import {generateToken} from '../services/token.service';
 import crypto from 'crypto';
 import mailer from '../services/mailer.service';
+import BaseController from "./base.controller";
+import taskModel from "../models/task";
 
-class UserController{
+class UserController extends BaseController{
 
 
     constructor(){
+        super(userModel.getModel());
         this.userModel = userModel.getModel();
+
     }
-    //get all users
-    getUsers(){
-        return this.userModel.find({});
-    }
+
     //signup user
     signUpUser(user){
         //hash password
