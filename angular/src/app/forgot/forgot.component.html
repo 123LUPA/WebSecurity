@@ -1,8 +1,9 @@
+
 <div class="example-container">
   <mat-card>
-    <h2>Type in your email</h2>
-    <form [formGroup]="retypeEmailFrom" (ngSubmit)="RetypeEmail()" novalidate>
-      <div class="form-group">
+    <form [formGroup]="retypeEmailFrom" #formDir="ngForm" (ngSubmit)="RetypeEmail()" novalidate>
+        <h2>Type in your email</h2>
+        <div class="form-group">
         <mat-form-field>
           <input matInput type="email" class="form-control" required formControlName="email" placeholder="Email">
         </mat-form-field>
@@ -11,5 +12,13 @@
         <button mat-raised-button color="primary" type="submit">Submit!</button>
       </div>
     </form>
+
+    <!--<div class="submitted-message" *ngIf="formDir.submitted" NgIf="">
+
+      <mat-card-content>The email was sent to rest your password</mat-card-content>
+      <button [routerLink]="['../login']">Ok</button>
+
+    </div>
+-->
   </mat-card>
 </div>
