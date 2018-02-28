@@ -33,8 +33,10 @@ export class NewComponent implements OnInit {
       this.newPasswor.changePassword(this.newPasswordForm.controls.newPassword.value,this.route.snapshot.paramMap.get('token'))
 
     }
+    else{
+      this.toastr.error('The passwords do not match');
+    }
 
-    this.toastr.error('The passwords do not match');
 
 
   }

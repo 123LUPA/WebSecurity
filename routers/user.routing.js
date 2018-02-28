@@ -36,6 +36,19 @@ let userRouter = express.Router();
  *              type: string
  */
 
+
+/**
+ * @swagger
+ * definitions:
+ *  PasswordReset:
+ *      type: object
+ *      required:
+ *      - email
+ *      properties:
+ *          email:
+ *              type: string
+ */
+
 /**
  * @swagger
  * /users:
@@ -154,21 +167,63 @@ userRouter.post('/login', (req, res)=>{
 
 /**
  * @swagger
- * /users/forgot/{email}:
- *  get:
+ * /users/forgot:
+ *  post:
  *      tags:
- *      - user
- *      summary: login user
- *      description: login user
+ *      - Password Reset
+ *      summary: Insert email associated with forgotten password
+ *      description: Password Reset
  *      parameters:
- *      - in: path
+ *      - in: body
  *        name: email
  *        schema:
- *           type: string
+ *           $ref: '#/definitions/PasswordReset'
  *      responses:
  *          201:
  *              description: ok
  *
  */
+
+//Rout that checks if the user exists & send email with password reset
+userRouter.post('/forgot', (req, res)=>{
+
+    userController.forgotPassword(req).then((data)=>{
+        res.send(data);
+
+    }).catch(err=>{
+        res.sendStatus(500);
+    })
+});
+
+
+//Link from the email checks if the user who wanted to change the password exists and the token is not expired
+userRouter.get('/reset/:token', function(req, res) {
+
+    userController.findUserByToken(req).then((user)=>{
+
+        if (!user) {
+            //If user does not exist navigate to forgot password form
+            console.log('error', 'Password reset token is invalid or has expired.');
+            return res.redirect('http://localhost:4200/#/forgot');
+    }
+
+        //else navigate to rest form where user can type new password
+        return res.redirect('http://' + 'localhost:4200/#' + '/reset/'+ req.params.token);
+    });
+
+});
+
+//Submmit new password
+userRouter.post('/reset/:token', function(req, res) {
+
+    userController.setNewPassword(req).then((data)=>{
+        if(!data){
+            res.sendStatus(500);
+        }
+        res.send(data);
+
+    })
+
+});
 
 export default userRouter;

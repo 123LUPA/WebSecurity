@@ -24,6 +24,7 @@ export class ForgotComponent implements OnInit {
   })
 
 
+
   RetypeEmail(){
     this.forgotService.forgotPassword(this.retypeEmailFrom.controls.email.value)
 

@@ -7,22 +7,24 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 export class ForgotService {
 
   private testUrl = 'http://localhost:3000/';
+  private error:boolean = false;
 
   constructor( private http: HttpClient, private push: ToastsManager, private router:Router) {}
 
   forgotPassword(email){
     this.http
-      .post(this.testUrl +'forgot', {email: email})
+      .post(this.testUrl +'users/forgot', {email: email})
       .subscribe(
         // Successful responses call the first callback.
         data => {
 
-          this.router.navigate(['login']);
-          console.log(data);
+          this.push.success('Email was send');
+
         },
         // Errors will call this callback instead:
         err => {
-          this.push.error('Either password or email was incorrect', 'Login incorrect');
+
+          this.push.error('Something went wrong, check if you spelled your email correctly');
           console.log('Something went wrong!', err);
         }
       );

@@ -12,28 +12,22 @@ export class NewPasswordService {
 
   changePassword(newPassword,token){
     this.http
-      .post(this.testUrl +'reset/'+ token, {password: newPassword}, )
+      .post(this.testUrl +'users/reset/'+ token, {password: newPassword}, )
       .subscribe(
         // Successful responses call the first callback.
         data => {
 
-          if(data['success']) {
+
+            this.push.success('Password Succesfully changed');
 
             this.router.navigate(['login']);
-          }
-          console.log(data);
+
         },
         // Errors will call this callback instead:
         err => {
           this.push.error('Something went wrong');
-          console.log('Something went wrong!', err);
         }
       );
-
-
-
-
-
 }
 
 }

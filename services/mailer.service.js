@@ -10,7 +10,7 @@ class Mailer{
                 pass: 'NEbuhrJmQmxba8CBSu'
             }
         };
-        this.mailer = nodemailer.createTransport(mailerSettings);
+       return this.mailer = nodemailer.createTransport(mailerSettings);
     }
 }
 const  mailer = new Mailer();
