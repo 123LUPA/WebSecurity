@@ -72,11 +72,62 @@ taskRouter.get('/', function(req, res) {
     }).catch((e)=>{
         res.status(400).send(e.errmsg);
     });
-    // userController.getUsers().then((users, err)=>{
-    //     if(err)
-    //         console.error(err);
-    //     res.json({users: users });
-    // });
 });
 
+/**
+ * @swagger
+ * /tasks/{id}:
+ *  delete:
+ *      tags:
+ *      - task
+ *      summary: delete specific task
+ *      description: delete specific task based on id
+ *      parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: string
+ *      responses:
+ *          200:
+ *              description: ok
+ */
+taskRouter.delete('/:id', function (req, res) {
+    taskController.deleteOne(req.params.id).then((deleted, err)=>{
+        if(err)
+            res.status(400).send(err);
+        res.send(deleted);
+    }).catch((e)=>{
+        res.status(400).send(e.errmsg);
+    });
+});
+/**
+ * @swagger
+ * /tasks/{id}:
+ *  put:
+ *      tags:
+ *      - task
+ *      summary: update specific task
+ *      description: update specific task based on id
+ *      parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: string
+ *      - in: body
+ *        name: task to update
+ *        schema:
+ *           $ref: '#/definitions/Task'
+ *      responses:
+ *          200:
+ *              description: ok
+ */
+taskRouter.put('/:id', function (req, res) {
+    taskController.updateOne(req.params.id, req.body).then((updated, err)=>{
+        if(err)
+            res.status(400).send(err);
+        res.send(updated);
+    }).catch((e)=>{
+        res.status(400).send(e.errmsg);
+    });
+});
 export default taskRouter;

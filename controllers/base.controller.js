@@ -11,5 +11,11 @@ class BaseController{
         let objToSave = new this.model(obj);
         return objToSave.save();
     }
+    deleteOne(id){
+        return this.model.remove({_id: id});
+    }
+    updateOne(id, newObj){
+        return this.model.findByIdAndUpdate(id, newObj, {new : true});
+    }
 }
 export default BaseController;
