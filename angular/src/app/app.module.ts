@@ -23,6 +23,7 @@ import {ForgotService} from "./forgot/forgot.service";
 import { NewComponent } from './new/new.component';
 import {NewPasswordService} from "./new/new-password.service";
 import { RecaptchaModule } from 'ng-recaptcha';
+import {HeaderComponent} from "./components/header.component";
 
 export class CustomOption extends ToastOptions {
   showCloseButton = true;
@@ -38,7 +39,8 @@ export class CustomOption extends ToastOptions {
     HomeComponent,
     SignupComponent,
     ForgotComponent,
-    NewComponent
+    NewComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +60,8 @@ export class CustomOption extends ToastOptions {
     MatDialogModule,
 
   ],
-  providers: [LoginService,SignupService,ForgotService,NewPasswordService,AuthGuard, {provide: ToastOptions, useClass: CustomOption}],
+  providers: [LoginService,SignupService,ForgotService,NewPasswordService,AuthGuard,
+    {provide: ToastOptions, useClass: CustomOption}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
