@@ -5,12 +5,17 @@ import {User} from "../model/User";
 
 @Injectable()
 export class UserService {
-  private userEmiter: EventEmitter<User> = new EventEmitter();
+  public userEmiter: EventEmitter<User> = new EventEmitter();
   user: User;
   constructor( private http: HttpClient) {
   }
-  public setUser(user: User){
-    this.user = user;
+  public setUser(user){
+    if(user){
+      this.user = new User(user.companyName, user.email, user.password);
+    }else{
+      this.user = user;
+    }
+
     this.userEmiter.emit(this.user);
   }
 }

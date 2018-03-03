@@ -15,13 +15,24 @@
     }
   }
   .action-buttons{
-    display: flex;
-    align-items: center;
-    button{
-      margin-right: 20px;
+    &--quest{
+      display: flex;
+      align-items: center;
+      button{
+        margin-right: 20px;
+      }
+      p{
+        cursor: pointer;
+      }
     }
-    p{
-      cursor: pointer;
+    &--user{
+      @extend .action-buttons--quest;
+      display: flex;
+      .name{
+        margin-right: 20px;
+      }
     }
+
+
   }
 }

@@ -1,24 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import {User} from "../../model/User";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent{
+  user: User;
 
-  private loginService;
-
-  constructor() {
+  constructor(public userService: UserService) {
   }
 
-  logout(){
-    // this.loginService.logout();
 
-
-  }
-
-  ngOnInit() {
-  }
 
 }

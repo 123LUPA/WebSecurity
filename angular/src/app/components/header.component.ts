@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import {User} from "../model/User";
+import {UserService} from "../services/user.service";
+import {LoginService} from "../services/login.service";
 
 
 @Component({
@@ -7,7 +10,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  constructor() {
+  constructor(public userService: UserService, private loginService: LoginService) {
+
   }
+  logout(){
+    this.loginService.logout();
+  }
+
 }
 

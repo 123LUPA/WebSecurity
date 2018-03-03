@@ -3,8 +3,14 @@
     <p>LOGO SAMPLE</p>
   </div>
   <div class="action-buttons">
-    <button mat-button class="mat-raised-button mat-primary" routerLink="signup">Sign up</button>
-    <p routerLink="login">login</p>
+    <div class="action-buttons--quest" *ngIf="!userService.user">
+      <button mat-button class="mat-raised-button mat-primary" routerLink="signup">Sign up</button>
+      <p routerLink="login">login</p>
+    </div>
+    <div class="action-buttons--user" *ngIf="userService.user">
+      <p class="name">Welcome, {{userService.user.companyName}}</p>
+      <button mat-button class="mat-raised-button mat-primary" (click)="logout()">Logout</button>
+    </div>
   </div>
   <!--<p>logo</p>-->
 </div>
