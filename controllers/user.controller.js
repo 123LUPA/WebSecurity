@@ -99,8 +99,9 @@ class UserController extends BaseController{
     findUser(email) {
         return new Promise((resolve, reject) => {
 
-            this.getUsers().findOne({email: email}, (err, user) => {
+            this.userModel.findOne({email: email}, (err, user) => {
                 if (user) {
+
                  return resolve(user);
                 }
                 return reject(err);
@@ -190,7 +191,7 @@ forgotPassword(request){
 
 
             //Find the user base on the token
-            this.getUsers().findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }).then((user)=>
+            this.userModel.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }).then((user)=>
             {
                 return resolve(user);
 
