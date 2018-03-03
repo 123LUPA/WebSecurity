@@ -16,8 +16,6 @@ export class LoginService {
   logUserIn (email, pass) {
     return new Promise((resolve, reject) =>{
       this.http
-
-
         .post(this.testUrl +'users/login', {email: email, password: pass}, )
         .subscribe(
           // Successful responses call the first callback.

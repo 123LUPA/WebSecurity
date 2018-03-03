@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
-import {User} from '../model/User';
 import {FormControl, FormGroup} from "@angular/forms";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import {SignupService} from "./signup.service";
+import {User} from "../../model/User";
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',

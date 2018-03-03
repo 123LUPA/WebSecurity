@@ -39,7 +39,12 @@ class UserController extends BaseController{
                 if(user.lockUntil < new Date()){
                     //check if password is not correct
                     if(this.comparePassword(data.password, user.password)){
-                        return resolve(generateToken(user));
+                        let token = generateToken(user);
+                        let responseToReturn = {
+                            token : token,
+                            user: user
+                        };
+                        return resolve(responseToReturn);
                     }else{
                         //add failed login attam
                         this.addFailedLoginAttempt(user).then(()=>{

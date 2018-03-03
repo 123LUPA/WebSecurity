@@ -135,7 +135,7 @@ userRouter.post('/signupDev', (req, res)=> {
  * /users/login:
  *  post:
  *      tags:
- *      - Login
+ *      - user
  *      summary: Login with token creation
  *      description: Login the user
  *      parameters:
@@ -154,7 +154,8 @@ userRouter.post('/login', (req, res)=>{
         res.json({
             success: true,
             message: 'Enjoy your token!',
-            token: data
+            token: data.token,
+            user: data.user
         });
 
     }, (err)=>{
@@ -170,7 +171,7 @@ userRouter.post('/login', (req, res)=>{
  * /users/forgot:
  *  post:
  *      tags:
- *      - Password Reset
+ *      - user
  *      summary: Insert email associated with forgotten password
  *      description: Password Reset
  *      parameters:
