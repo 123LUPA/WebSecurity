@@ -188,7 +188,9 @@ userRouter.post('/login', (req, res)=>{
 //Rout that checks if the user exists & send email with password reset
 userRouter.post('/forgot', (req, res)=>{
 
+    console.log("here");
     userController.forgotPassword(req).then((data)=>{
+
         res.send(data);
 
     }).catch(err=>{
@@ -204,7 +206,6 @@ userRouter.get('/reset/:token', function(req, res) {
 
         if (!user) {
             //If user does not exist navigate to forgot password form
-            console.log('error', 'Password reset token is invalid or has expired.');
             return res.redirect('http://localhost:4200/#/forgot');
     }
 
