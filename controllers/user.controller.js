@@ -3,17 +3,18 @@ import bcrypt from 'bcrypt-nodejs';
 import {generateToken} from '../services/token.service';
 import crypto from 'crypto';
 import mailer from '../services/mailer.service';
+import BaseController from "./base.controller";
+import taskModel from "../models/task";
 
-class UserController{
+class UserController extends BaseController{
 
 
     constructor(){
+        super(userModel.getModel());
         this.userModel = userModel.getModel();
+
     }
-    //get all users
-    getUsers(){
-        return this.userModel.find({});
-    }
+
     //signup user
     signUpUser(user){
         //hash password
@@ -38,7 +39,12 @@ class UserController{
                 if(user.lockUntil < new Date()){
                     //check if password is not correct
                     if(this.comparePassword(data.password, user.password)){
-                        return resolve(generateToken(user));
+                        let token = generateToken(user);
+                        let responseToReturn = {
+                            token : token,
+                            user: user
+                        };
+                        return resolve(responseToReturn);
                     }else{
                         //add failed login attam
                         this.addFailedLoginAttempt(user).then(()=>{

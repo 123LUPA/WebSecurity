@@ -1,9 +1,8 @@
-///<reference path="../../../node_modules/@angular/core/src/metadata/lifecycle_hooks.d.ts"/>
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
-import {LoginService} from './login';
 import {FormControl, FormGroup} from "@angular/forms";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import {async} from "rxjs/scheduler/async";
+import {LoginService} from "../../services/login.service";
 
 @Component({
   selector: 'app-login',
@@ -34,13 +33,13 @@ export class LoginComponent {
   login () {
     this.warningShow=true;
     if (this.loginForm.controls.email.value && this.loginForm.controls.password.value) {
-      this.message = this.LoginService.logUserIn(this.loginForm.controls.email.value, this.loginForm.controls.password.value).then(value => {
-
-        if(value=='Enjoy your token!'){
-          this.warningShow=true;
-        }
-        this.message=value;
-        this.warningShow=false;
+      this.message = this.LoginService.logUserIn(this.loginForm.controls.email.value,
+        this.loginForm.controls.password.value).then(value => {
+          if(value=='Enjoy your token!'){
+            this.warningShow=true;
+          }
+          this.message=value;
+          this.warningShow=false;
 
       }).catch(error => {
 
