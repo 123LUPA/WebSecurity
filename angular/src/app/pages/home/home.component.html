@@ -4,8 +4,10 @@
     <p>Please <span routerLink="signup">Sign up</span> or
       <span routerLink="login">login</span> to enjoy full functionality</p>
   </div>
-  <div *ngIf="userService.user">
-    <p>Let's try our functionality </p>
+  <!--if user logged and no tasks-->
+  <div class="home--quest" *ngIf="userService.user">
+    <h3>Seems like you don't have any tasks!</h3>
+    <p>Don't be shy and <span routerLink="create-task">create one</span>!</p>
   </div>
 </div>
 <!--<button mat-button class="mat-raised-button mat-primary" (click)="logout()">Logout</button>-->

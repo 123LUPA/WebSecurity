@@ -8,10 +8,9 @@ import {routing} from "../Routing";
 import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule, FormsModule} from "@angular/forms";
 
-import {
-  MatFormFieldModule,
-  MatListModule, MatInputModule, MatCardModule, MatButtonModule, MatDialogModule
-} from "@angular/material";
+import {MatFormFieldModule, MatListModule,
+  MatInputModule, MatCardModule, MatButtonModule,
+  MatDialogModule} from "@angular/material";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { HomeComponent } from './pages/home/home.component';
 import {AuthGuard} from "./auth-guard";
@@ -22,10 +21,12 @@ import {ForgotService} from "./forgot/forgot.service";
 import { NewComponent } from './new/new.component';
 import {NewPasswordService} from "./new/new-password.service";
 import { RecaptchaModule } from 'ng-recaptcha';
-import {HeaderComponent} from "./components/header.component";
+import {HeaderComponent} from "./components/header/header.component";
 import {LoginService} from "./services/login.service";
 import {UserService} from "./services/user.service";
 import {HomeService} from "./services/home.service";
+import {CreateComponentOptions} from "@angular/core/src/render3/component";
+import {CreateTaskComponent} from "./components/create-task/create-task.component";
 
 export class CustomOption extends ToastOptions {
   showCloseButton = true;
@@ -42,7 +43,8 @@ export class CustomOption extends ToastOptions {
     SignupComponent,
     ForgotComponent,
     NewComponent,
-    HeaderComponent
+    HeaderComponent,
+    CreateTaskComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +64,8 @@ export class CustomOption extends ToastOptions {
     MatDialogModule,
 
   ],
-  providers: [HomeService,LoginService, SignupService, ForgotService, NewPasswordService, AuthGuard, UserService,
+  providers: [HomeService,LoginService, SignupService, ForgotService, NewPasswordService,
+    AuthGuard, UserService,
     {provide: ToastOptions, useClass: CustomOption}],
   bootstrap: [AppComponent]
 })

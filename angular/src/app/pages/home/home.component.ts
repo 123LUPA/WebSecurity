@@ -18,9 +18,10 @@ export class HomeComponent{
   }
 
   reloadHomePage(email){
+    if(email){
+      let result = this.homeService.reloadHomePage(email);
 
-
-   let result = this.homeService.reloadHomePage(email);
+    }
   }
 
 
