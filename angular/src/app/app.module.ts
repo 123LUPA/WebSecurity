@@ -22,7 +22,7 @@ import {ForgotService} from "./forgot/forgot.service";
 import { NewComponent } from './new/new.component';
 import {NewPasswordService} from "./new/new-password.service";
 import { RecaptchaModule } from 'ng-recaptcha';
-import {HeaderComponent} from "./components/header.component";
+import {HeaderComponent} from "./components/header/header.component";
 import {LoginService} from "./services/login.service";
 import {UserService} from "./services/user.service";
 
