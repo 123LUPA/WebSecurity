@@ -26,8 +26,9 @@ export class LoginService {
             resolve(message);
             if(data['success']) {
               let token = data['token'];
+              let user = data['user'];
               localStorage.setItem('token', token );
-              localStorage.setItem('email', email);
+              localStorage.setItem('email',user.email);
               this.router.navigate(['']);
               this.userService.setUser(data['user']);
               resolve(data['message']);

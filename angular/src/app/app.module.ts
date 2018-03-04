@@ -25,6 +25,7 @@ import { RecaptchaModule } from 'ng-recaptcha';
 import {HeaderComponent} from "./components/header/header.component";
 import {LoginService} from "./services/login.service";
 import {UserService} from "./services/user.service";
+import {HomeService} from "./services/home.service";
 
 export class CustomOption extends ToastOptions {
   showCloseButton = true;
@@ -61,7 +62,7 @@ export class CustomOption extends ToastOptions {
     MatDialogModule,
 
   ],
-  providers: [LoginService, SignupService, ForgotService, NewPasswordService, AuthGuard, UserService,
+  providers: [HomeService,LoginService, SignupService, ForgotService, NewPasswordService, AuthGuard, UserService,
     {provide: ToastOptions, useClass: CustomOption}],
   bootstrap: [AppComponent]
 })
