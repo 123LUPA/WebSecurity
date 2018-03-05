@@ -190,8 +190,32 @@ forgotPassword(request){
         return new Promise((resolve, reject) => {
 
 
+            console.log(req);
             //Find the user base on the token
             this.userModel.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }).then((user)=>
+            {
+                console.log(user);
+                return resolve(user);
+
+            },(error)=>
+            {
+                return reject(error);
+            })
+
+            ;
+        });
+
+    }
+
+
+    findUserByEmailInToken(req) {
+
+        return new Promise((resolve, reject) => {
+
+
+            console.log(req.body.email);
+            //Find the user base on the token
+            this.userModel.findOne({ email: req.body.email }).then((user)=>
             {
                 return resolve(user);
 

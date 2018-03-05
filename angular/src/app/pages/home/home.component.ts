@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from "../../model/User";
 import {UserService} from "../../services/user.service";
+import {HomeService} from "../../services/home.service";
 
 @Component({
   selector: 'app-home',
@@ -9,8 +10,18 @@ import {UserService} from "../../services/user.service";
 })
 export class HomeComponent{
   user: User;
+  homeService;
 
-  constructor(public userService: UserService) {
+  constructor(public userService: UserService,public hoS:HomeService) {
+    this.homeService = hoS;
+    this.reloadHomePage(localStorage.getItem('email'));
+  }
+
+  reloadHomePage(email){
+    if(email){
+      let result = this.homeService.reloadHomePage(email);
+
+    }
   }
 
 
