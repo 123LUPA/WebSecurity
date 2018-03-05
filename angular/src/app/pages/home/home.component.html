@@ -1,0 +1,13 @@
+<div class="home">
+  <div class="home--quest" *ngIf="!userService.user">
+    <h3>This is our super duper secure app :)</h3>
+    <p>Please <span class="action" routerLink="signup">Sign up</span> or
+      <span class="action" routerLink="login">login</span> to enjoy full functionality</p>
+  </div>
+  <!--if user logged and no tasks-->
+  <div class="home--quest" *ngIf="userService.user">
+    <h3>Seems like you don't have any tasks!</h3>
+    <p>Don't be shy and <span class="action" routerLink="create-task">create one</span>!</p>
+  </div>
+</div>
+<!--<button mat-button class="mat-raised-button mat-primary" (click)="logout()">Logout</button>-->

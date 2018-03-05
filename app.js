@@ -3,13 +3,10 @@ import bodyParser from 'body-parser';
 import cors from  'cors';
 import path from  'path';
 import logger from  'morgan';
-import cookieParser from  'cookie-parser';
-import routes from './routers/index';
-import jwt from  'jsonwebtoken'; // used to create, sign, and verify tokens
 import config from  './config'; // // get our config file
 import Swagger from './services/swagger.service';
 import mongoSanitize from  'express-mongo-sanitize';
-import {swaggerRoute, userRouter} from './routers/index.routing';
+import {swaggerRoute, userRouter, taskRouter,homeRouter} from './routers/index.routing';
 
 
 const port = process.env.PORT || 3000;
@@ -33,7 +30,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/users', userRouter);
-
+app.use('/tasks', taskRouter);
+app.use('', homeRouter);
 // app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 // app.use(mongoSanitize());

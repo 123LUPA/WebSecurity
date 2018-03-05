@@ -17,10 +17,7 @@ export class SignupService {
         // Successful responses call the first callback.
         data => {
 
-          if(data['success']) {
-
-            this.router.navigate(['login']);
-          }
+          this.router.navigate(['login']);
           console.log(data);
         },
         // Errors will call this callback instead:

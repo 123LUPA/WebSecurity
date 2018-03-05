@@ -1,0 +1,12 @@
+@import "variables";
+body{
+  font-family: 'Lato', sans-serif;
+}
+span{
+  &.action{
+    text-decoration: underline;
+    color: $green-color;
+    font-weight: bold;
+    cursor: pointer;
+  }
+}

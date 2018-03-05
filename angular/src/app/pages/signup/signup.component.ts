@@ -1,4 +1,5 @@
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {FormControl, FormGroup} from "@angular/forms";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import {SignupService} from "./signup.service";

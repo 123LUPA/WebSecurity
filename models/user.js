@@ -31,6 +31,11 @@ class UserModel{
                 maxLength: 20,
                 required: true
             },
+            token:{
+                type:String,
+                required: false
+            },
+
             resetPasswordToken: {
                 type: String
             },

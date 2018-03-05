@@ -1,0 +1,38 @@
+@import "../../../styles";
+.header{
+  display: flex;
+  justify-content: space-between;
+  background: $light-grey;
+  height: 60px;
+  padding: 10px $wrapper;
+  .logo{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    p{
+      font-weight: bold;
+      color: $green-color;
+    }
+  }
+  .action-buttons{
+    &--quest{
+      display: flex;
+      align-items: center;
+      button{
+        margin-right: 20px;
+      }
+      p{
+        cursor: pointer;
+      }
+    }
+    &--user{
+      @extend .action-buttons--quest;
+      display: flex;
+      .name{
+        margin-right: 20px;
+      }
+    }
+
+
+  }
+}

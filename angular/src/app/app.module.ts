@@ -3,26 +3,34 @@ import { NgModule } from '@angular/core';
 
 import {ToastModule, ToastOptions} from 'ng2-toastr/ng2-toastr';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import {LoginService} from "./login/login";
+import { LoginComponent } from './pages/login/login.component';
 import {routing} from "../Routing";
 import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule, FormsModule} from "@angular/forms";
 
 import {
-  MatFormFieldModule,
-  MatListModule, MatInputModule, MatCardModule, MatButtonModule, MatDialogModule
+  MatFormFieldModule, MatListModule,
+  MatInputModule, MatCardModule, MatButtonModule,
+  MatDialogModule, MatProgressSpinnerModule
 } from "@angular/material";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './pages/home/home.component';
 import {AuthGuard} from "./auth-guard";
-import { SignupComponent } from './signup/signup.component';
-import {SignupService} from "./signup/signup.service";
+import { SignupComponent } from './pages/signup/signup.component';
+import {SignupService} from "./pages/signup/signup.service";
 import { ForgotComponent } from './forgot/forgot.component';
 import {ForgotService} from "./forgot/forgot.service";
 import { NewComponent } from './new/new.component';
 import {NewPasswordService} from "./new/new-password.service";
 import { RecaptchaModule } from 'ng-recaptcha';
+import {HeaderComponent} from "./components/header/header.component";
+import {LoginService} from "./services/login.service";
+import {UserService} from "./services/user.service";
+import {HomeService} from "./services/home.service";
+import {CreateComponentOptions} from "@angular/core/src/render3/component";
+import {CreateTaskComponent} from "./pages/create-task/create-task.component";
+import {TaskService} from "./services/task.service";
+import {HomeService} from "./services/home.service";
 
 export class CustomOption extends ToastOptions {
   showCloseButton = true;
@@ -38,7 +46,9 @@ export class CustomOption extends ToastOptions {
     HomeComponent,
     SignupComponent,
     ForgotComponent,
-    NewComponent
+    NewComponent,
+    HeaderComponent,
+    CreateTaskComponent
   ],
   imports: [
     BrowserModule,
@@ -52,13 +62,16 @@ export class CustomOption extends ToastOptions {
     MatInputModule,
     MatFormFieldModule,
     MatCardModule,
+    MatProgressSpinnerModule,
     BrowserAnimationsModule,
     MatButtonModule,
     routing,
     MatDialogModule,
 
   ],
-  providers: [LoginService,SignupService,ForgotService,NewPasswordService,AuthGuard, {provide: ToastOptions, useClass: CustomOption}],
+  providers: [HomeService, LoginService, SignupService, ForgotService, NewPasswordService,
+    AuthGuard, UserService, TaskService,
+    {provide: ToastOptions, useClass: CustomOption}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
