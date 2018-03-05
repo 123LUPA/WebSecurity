@@ -27,7 +27,7 @@ class UserModel{
             },
             password: {
                 type:String,
-                validate: /^[a-zA-Z0-9_.-]*$/,
+                validate: /^[a-zA-Z0-9_.-]*$/, //regex comment
                 maxLength: 20,
                 required: true
             },
@@ -42,6 +42,7 @@ class UserModel{
             resetPasswordExpires: {
                 type: Date
             },
+
             loginAttempts: {
                 type: Number,
                 default: 0
