@@ -14,15 +14,21 @@ class UserModel{
     createSchema(){
         this.userSchema = new this.Schema({
             companyName: {
-                type: String
+                type: String,
+                minLength:2,
+                validate: /^[a-zA-Z0-9_.-]*$/
             },
             email: {
                 type: String,
+                validate: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+                minLength: 6,
                 required: true,
                 unique: true
             },
             password: {
                 type:String,
+                validate: /^[a-zA-Z0-9_.-]*$/,
+                maxLength: 20,
                 required: true
             },
             resetPasswordToken: {
