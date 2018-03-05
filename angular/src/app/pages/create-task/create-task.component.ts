@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Task} from '../../model/task';
+import {TaskService} from "../../services/task.service";
+import {Processing} from "../../model/proccessing";
 
 @Component({
   selector: 'create-task',
@@ -14,10 +16,11 @@ export class CreateTaskComponent{
   titleControl;
   descriptionControl;
   authorControl;
-  isProcessing: boolean;
+  processing: Processing;
 
-  constructor(private formBuilder : FormBuilder) {
+  constructor(private formBuilder : FormBuilder, private taskService: TaskService) {
     this.buildForm();
+    this.processing = new Processing(false, false, false);
   }
 
   private buildForm(){
@@ -36,9 +39,15 @@ export class CreateTaskComponent{
   }
 
   public onSubmitForm(){
-    this.isProcessing = true;
+    this.processing.isProcessing = true;
     this.task = new Task(this.titleControl.value, this.descriptionControl.value,
       this.authorControl.value);
-    console.log("this is task ", this.task);
+    this.taskService.createEvent(this.task).subscribe((res)=>{
+      this.processing.isCompleted = true;
+      this.processing.isProcessing = false;
+    }, error => {
+      this.processing.isProcessing = false;
+      this.processing.isError = true;
+    });
   }
 }

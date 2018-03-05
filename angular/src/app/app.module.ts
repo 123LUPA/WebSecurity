@@ -8,9 +8,11 @@ import {routing} from "../Routing";
 import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule, FormsModule} from "@angular/forms";
 
-import {MatFormFieldModule, MatListModule,
+import {
+  MatFormFieldModule, MatListModule,
   MatInputModule, MatCardModule, MatButtonModule,
-  MatDialogModule} from "@angular/material";
+  MatDialogModule, MatProgressSpinnerModule
+} from "@angular/material";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { HomeComponent } from './pages/home/home.component';
 import {AuthGuard} from "./auth-guard";
@@ -26,7 +28,8 @@ import {LoginService} from "./services/login.service";
 import {UserService} from "./services/user.service";
 import {HomeService} from "./services/home.service";
 import {CreateComponentOptions} from "@angular/core/src/render3/component";
-import {CreateTaskComponent} from "./components/create-task/create-task.component";
+import {CreateTaskComponent} from "./pages/create-task/create-task.component";
+import {TaskService} from "./services/task.service";
 
 export class CustomOption extends ToastOptions {
   showCloseButton = true;
@@ -58,14 +61,15 @@ export class CustomOption extends ToastOptions {
     MatInputModule,
     MatFormFieldModule,
     MatCardModule,
+    MatProgressSpinnerModule,
     BrowserAnimationsModule,
     MatButtonModule,
     routing,
     MatDialogModule,
 
   ],
-  providers: [HomeService,LoginService, SignupService, ForgotService, NewPasswordService,
-    AuthGuard, UserService,
+  providers: [HomeService, LoginService, SignupService, ForgotService, NewPasswordService,
+    AuthGuard, UserService, TaskService,
     {provide: ToastOptions, useClass: CustomOption}],
   bootstrap: [AppComponent]
 })

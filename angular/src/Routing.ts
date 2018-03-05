@@ -5,7 +5,7 @@ import {HomeComponent} from "./app/pages/home/home.component";
 import {SignupComponent} from "./app/pages/signup/signup.component";
 import {ForgotComponent} from "./app/forgot/forgot.component";
 import {NewComponent} from "./app/new/new.component";
-import {CreateTaskComponent} from "./app/components/create-task/create-task.component";
+import {CreateTaskComponent} from "./app/pages/create-task/create-task.component";
 
 
 const appRoutes: Routes = [

@@ -1,6 +1,14 @@
 <div class="create-task">
-  <p>You are gonna create task</p>
-  <form *ngIf="!isProcessing" [formGroup]="taskForm" (ngSubmit)="onSubmitForm()">
+  <h3 *ngIf="!processing.isProcessing">Create task:</h3>
+  <mat-spinner class="spinner" *ngIf="processing.isProcessing"></mat-spinner>
+
+  <div class="done" *ngIf="processing.isCompleted">
+    <h3>You created task! Click <span class="action">here</span> and check your dashboard</h3>
+  </div>
+  <div class="error" *ngIf="processing.isError">
+    <h3>We failed! :(</h3>
+  </div>
+  <form *ngIf="!processing.isProcessing && !processing.isCompleted" [formGroup]="taskForm" (ngSubmit)="onSubmitForm()">
     <mat-form-field class="example-full-width block">
       <input matInput formControlName="title" type="text" placeholder="title">
       <div *ngIf="titleControl.errors && titleControl.touched">
@@ -26,6 +34,6 @@
       </div>
     </mat-form-field>
 
-    <button type="submit" class="button" mat-raised-button [disabled]="!taskForm.valid">Create</button>
+    <button type="submit" class="button" mat-raised-button color="primary" [disabled]="!taskForm.valid">Create</button>
   </form>
 </div>
