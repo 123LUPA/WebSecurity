@@ -26,7 +26,6 @@ import { RecaptchaModule } from 'ng-recaptcha';
 import {HeaderComponent} from "./components/header/header.component";
 import {LoginService} from "./services/login.service";
 import {UserService} from "./services/user.service";
-import {HomeService} from "./services/home.service";
 import {CreateComponentOptions} from "@angular/core/src/render3/component";
 import {CreateTaskComponent} from "./pages/create-task/create-task.component";
 import {TaskService} from "./services/task.service";
