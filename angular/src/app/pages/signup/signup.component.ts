@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import {SignupService} from "./signup.service";
 import {User} from "../../model/User";
@@ -21,9 +22,19 @@ export class SignupComponent implements OnInit {
   }
 
   signupForm = new FormGroup ({
-    companyName: new FormControl(),
-    email: new FormControl(),
-    password: new FormControl()
+    companyName: new FormControl('', [
+      Validators.required,
+      Validators.minLength(2)
+    ]),
+    email: new FormControl('',[
+      Validators.required,
+      Validators.minLength(6),
+      Validators.pattern("[^ @]*@[^ @]*")
+    ]),
+    password: new FormControl('',[
+      Validators.required,
+      Validators.minLength(6)
+    ])
   });
 
   signup () {

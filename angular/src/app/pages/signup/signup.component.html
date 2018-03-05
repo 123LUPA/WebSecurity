@@ -5,11 +5,20 @@
       <div class="form-group">
         <mat-form-field>
           <input matInput type="companyName" class="form-control" required formControlName="companyName" placeholder="Company name">
+         <!-- <div *ngIf="companyName.errors && companyName.touched">
+            <mat-error *ngIf="companyName.errors.required">Company name is required</mat-error>
+            <mat-error *ngIf="companyName.errors.minlength">Company name should be at least 2 characters.</mat-error>
+          </div>-->
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field>
           <input matInput type="email" class="form-control" required formControlName="email" placeholder="Email">
+         <!-- <div *ngIf="email.errors && email.touched">
+            <mat-error *ngIf="email.errors.required">Email is required</mat-error>
+            <mat-error *ngIf="email.errors.minlength">Email should be at least 2 characters.</mat-error>
+            <mat-error *ngIf="email.errors.pattern">Email should contain @ character.</mat-error>
+          </div>-->
         </mat-form-field>
       </div>
       <div class="form-group">
@@ -17,6 +26,10 @@
           <input matInput type="password" class="form-control"
                  name="password" required id="password" formControlName="password"
                  placeholder="Password">
+         <!-- <div *ngIf="password.errors && companyName.touched">
+            <mat-error *ngIf="password.errors.required">Password is required</mat-error>
+            <mat-error *ngIf="password.errors.minlength">Password should be at least 2 characters.</mat-error>
+          </div>-->
         </mat-form-field>
       </div>
       <div class="form-group">
