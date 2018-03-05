@@ -5,11 +5,21 @@
       <div class="form-group">
         <mat-form-field>
           <input matInput type="companyName" class="form-control" required formControlName="companyName" placeholder="Company name">
+          <div *ngIf="companyNameController.errors && companyNameController.touched">
+            <mat-error *ngIf="companyNameController.errors.required">Company name is required</mat-error>
+            <mat-error *ngIf="companyNameController.errors.pattern">Company name only letters and/or numbers</mat-error>
+            <mat-error *ngIf="companyNameController.errors.minlength">Company name should be at least 2 characters.</mat-error>
+          </div>
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field>
           <input matInput type="email" class="form-control" required formControlName="email" placeholder="Email">
+          <div *ngIf="emailController.errors && emailController.touched">
+            <mat-error *ngIf="emailController.errors.required">Email is required</mat-error>
+            <mat-error *ngIf="emailController.errors.minlength">Email should be at least 2 characters.</mat-error>
+            <mat-error *ngIf="emailController.errors.pattern">Email allows pattern: letter._7@domain.com</mat-error>
+          </div>
         </mat-form-field>
       </div>
       <div class="form-group">
@@ -17,11 +27,21 @@
           <input matInput type="password" class="form-control"
                  name="password" required id="password" formControlName="password"
                  placeholder="Password">
+          <div *ngIf="passwordController.errors && passwordController.touched">
+            <mat-error *ngIf="passwordController.errors.required">Password is required</mat-error>
+            <mat-error *ngIf="passwordController.errors.minlength">Password should be at least 6 characters.</mat-error>
+            <mat-error *ngIf="passwordController.errors.pattern">
+              Password should be min 6 characters:
+              <br>Only letters and numbers
+              <br>Min one upper and lower case
+              <br>Min one digit
+            </mat-error>
+          </div>
         </mat-form-field>
       </div>
       <div class="form-group">
         <re-captcha (resolved)="resolved($event)" siteKey="6LeAUkYUAAAAAGEZOgG1nP60bCUxw70M-EFn7VQr"></re-captcha>
-        <button mat-raised-button color="primary" type="submit">Sign Up!</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!signupForm.valid">Sign Up!</button>
       </div>
     </form>
   </mat-card>
