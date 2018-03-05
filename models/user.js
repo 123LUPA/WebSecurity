@@ -15,19 +15,20 @@ class UserModel{
         this.userSchema = new this.Schema({
             companyName: {
                 type: String,
-                minLength:2,
-                validate: /^[a-zA-Z0-9_.-]*$/
+                validate: /^[a-zA-Z0-9]{2,}$/,
+                minLength:2
             },
             email: {
                 type: String,
-                validate: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
-                minLength: 6,
+                validate: /^[a-z0-9._@]{5,}$/,
+                minLength: 5,
                 required: true,
                 unique: true
             },
             password: {
                 type:String,
-                validate: /^[a-zA-Z0-9_.-]*$/, //regex comment
+                validate: /[0-9a-zA-Z]$/,
+                minLength:6,
                 maxLength: 20,
                 required: true
             },
