@@ -14,15 +14,19 @@ export class HomeComponent{
 
   constructor(public userService: UserService,public hoS:HomeService) {
     this.homeService = hoS;
-    this.reloadHomePage(localStorage.getItem('email'));
+    this.reloadHomePage(localStorage.getItem('token'));
   }
 
-  reloadHomePage(email){
-    if(email){
-      let result = this.homeService.reloadHomePage(email);
+  reloadHomePage(token){
+    if(token){
+      let result = this.homeService.reloadHomePage(token);
+    }
+    else{
+      console.log("no token provided")
 
     }
   }
+
 
 
 

@@ -30,6 +30,7 @@ import {HomeService} from "./services/home.service";
 import {CreateComponentOptions} from "@angular/core/src/render3/component";
 import {CreateTaskComponent} from "./pages/create-task/create-task.component";
 import {TaskService} from "./services/task.service";
+import {HomeService} from "./services/home.service";
 
 export class CustomOption extends ToastOptions {
   showCloseButton = true;

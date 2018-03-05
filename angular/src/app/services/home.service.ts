@@ -13,11 +13,11 @@ export class HomeService {
   constructor( private http: HttpClient, private push: ToastsManager, private router:Router,private userService: UserService) {
   }
 
-  reloadHomePage (email) {
+  reloadHomePage (token) {
 
     return new Promise((resolve, reject) =>{
       this.http
-        .post(this.testUrl +'', {email: email})
+        .post(this.testUrl +'', {token: token})
         .subscribe(
           // Successful responses call the first callback.
           user => {
@@ -26,8 +26,6 @@ export class HomeService {
 
           },
           error => { // Error
-            this.push.error("The token expired");
-            reject(error);
           }
         );
     })

@@ -5,6 +5,8 @@ import crypto from 'crypto';
 import mailer from '../services/mailer.service';
 import BaseController from "./base.controller";
 import taskModel from "../models/task";
+import checkTokenValidity from '../services/token.service';
+
 
 class UserController extends BaseController{
 
@@ -227,6 +229,26 @@ forgotPassword(request){
             ;
         });
 
+    }
+
+
+    findUserByEmailInToken(email) {
+
+
+        return new Promise((resolve, reject) => {
+
+            //Find the user base on the token
+            this.userModel.findOne({ email: email}).then((user)=>
+            {
+                return resolve(user);
+
+            },(error)=>
+            {
+                return reject(error);
+            })
+
+            ;
+        });
     }
 
     setNewPassword(req){
