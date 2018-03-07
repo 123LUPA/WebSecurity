@@ -10,8 +10,11 @@ export class HomeService {
 
   private testUrl = 'http://localhost:3000';
 
-  constructor( private http: HttpClient, private push: ToastsManager, private router:Router,private userService: UserService) {
-  }
+  constructor( private http: HttpClient, private push: ToastsManager,
+               private router:Router,private userService: UserService) {
+
+
+}
 
   reloadHomePage (token) {
 
