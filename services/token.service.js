@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 import userController from '../controllers/user.controller';
 
 export function checkTokenValidity(req,res,next) {
-
     // check header or url parameters or post parameters for token
     var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
@@ -26,12 +25,12 @@ export function checkTokenValidity(req,res,next) {
                 req.user = user;
                 next();
             },(err)=>{
-                return res.send(err);
+                 res.send(err);
             });
         });
 
     } else {
-        return res.status(403)
+        res.sendStatus(403);
     }
 
 }

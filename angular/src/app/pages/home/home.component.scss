@@ -9,4 +9,29 @@
   &--user{
     @extend .home--quest;
   }
+  .task-holder{
+    max-width: 500px;
+    margin: 0 auto;
+    padding-top: 50px;
+    &--header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .card-header{
+      &--title{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        i{
+          cursor: pointer;
+        }
+
+      }
+    }
+    mat-card{
+          margin: 15px;
+    }
+  }
 }

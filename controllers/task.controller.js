@@ -5,6 +5,31 @@ class TaskController  extends BaseController{
 
     constructor(){
         super(taskModel.getModel());
+        this.taskModel = taskModel.getModel();
+    }
+    getuserstasks(userId){
+        return this.taskModel.find({postedBy: userId});
+    }
+    deleteOne(id, userId){
+        //create promise
+        return new Promise((resolve, reject) => {
+            //get task which we want to delete
+            this.model.findById(id, (err, obj)=>{
+                if(err || obj === null){
+                    reject(err);
+                }else{
+                    if(JSON.stringify(userId) === JSON.stringify(obj.postedBy)){
+                        this.model.remove({_id: id}).then((deleted, err)=>{
+                            if(err)
+                                reject(err);
+                            resolve(deleted);
+                        });
+                    }else{
+                        reject(err);
+                    }
+                }
+            });
+        });
     }
 
 }

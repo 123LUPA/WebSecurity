@@ -17,6 +17,11 @@ class TaskModel{
                 type: String,
                 required: true,
             },
+            postedBy: {
+                type: this.mongoose.Schema.Types.ObjectId,
+                ref: 'User',
+                required: true,
+            },
             description: {
                 type: String,
                 required: true,

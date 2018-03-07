@@ -1,7 +1,6 @@
 import express from 'express';
 import taskController from "../controllers/task.controller";
-import userRouter from "./user.routing";
-import userController from "../controllers/user.controller";
+import {checkTokenValidity} from '../services/token.service';
 //define router
 let taskRouter = express.Router();
 
@@ -14,6 +13,7 @@ let taskRouter = express.Router();
  *      - title
  *      - description
  *      - author
+ *      - token
  *      properties:
  *          title:
  *              type: string
@@ -35,12 +35,18 @@ let taskRouter = express.Router();
  *        name: task
  *        schema:
  *           $ref: '#/definitions/Task'
+ *      - in: header
+ *        name: X-Access-Token
+ *        schema:
+ *          type: string
  *      responses:
  *          201:
  *              description: ok
  *
  */
-taskRouter.post('/', (req, res)=> {
+taskRouter.post('/', checkTokenValidity, (req, res)=> {
+    // console.log(req.body, req.user);
+    req.body['postedBy'] = req.user._id;
     taskController.create(req.body).then((created, err)=>{
         if(err)
             res.status(400).send(err);
@@ -76,7 +82,37 @@ taskRouter.get('/', function(req, res) {
 
 /**
  * @swagger
- * /tasks/{id}:
+ * /tasks/user:
+ *  get:
+ *      tags:
+ *      - task
+ *      summary: get all user's tasks
+ *      description: get all user's tasks
+ *      parameters:
+ *      - in: header
+ *        name: X-Access-Token
+ *        schema:
+ *          type: string
+ *      responses:
+ *          201:
+ *              description: ok
+ *
+ */
+
+taskRouter.get('/user', checkTokenValidity, function(req, res) {
+    console.log("you are gonna get taks");
+    taskController.getuserstasks(req.user._id).then((tasks, err)=>{
+        if(err)
+            res.status(400).send(err);
+        res.json({tasks: tasks});
+    }).catch((e)=>{
+        res.status(400).send(e.errmsg);
+    });
+});
+
+/**
+ * @swagger
+ * /tasks/{taskId}:
  *  delete:
  *      tags:
  *      - task
@@ -84,22 +120,34 @@ taskRouter.get('/', function(req, res) {
  *      description: delete specific task based on id
  *      parameters:
  *      - in: path
- *        name: id
+ *        name: taskId
+ *        schema:
+ *          type: string
+ *      - in: header
+ *        name: X-Access-Token
  *        schema:
  *          type: string
  *      responses:
  *          200:
  *              description: ok
  */
-taskRouter.delete('/:id', function (req, res) {
-    taskController.deleteOne(req.params.id).then((deleted, err)=>{
-        if(err)
-            res.status(400).send(err);
+taskRouter.delete('/:taskId', checkTokenValidity, function (req, res) {
+    taskController.deleteOne(req.params.taskId, req.user._id).then((deleted, err)=> {
+        console.log(err, "<-- here")
         res.send(deleted);
-    }).catch((e)=>{
-        res.status(400).send(e.errmsg);
+    }, err=>{
+        res.status(400).send(err);
+
     });
+    //     .then((deleted, err)=>{
+    //     if(err)
+    //         res.status(400).send(err);
+    //     res.send(deleted);
+    // }).catch((e)=>{
+    //     res.status(400).send(e.errmsg);
+    // });
 });
+
 /**
  * @swagger
  * /tasks/{id}:
