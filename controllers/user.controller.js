@@ -100,7 +100,7 @@ class UserController extends BaseController{
     }
 
      decrypt(email){
-        var decipher = crypto.createCipheriv(algorithm,password);
+        var decipher = crypto.createCipheriv('aes-256-cbc', key, iv);
         var decrypted = decipher.update(email,'hex','utf8');
         decrypted += decipher.final('utf8');
         return decrypted;
