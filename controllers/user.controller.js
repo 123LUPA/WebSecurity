@@ -99,6 +99,12 @@ class UserController extends BaseController{
         return crypted;
     }
 
+     decrypt(email){
+        var decipher = crypto.createCipheriv(algorithm,password);
+        var decrypted = decipher.update(email,'hex','utf8');
+        decrypted += decipher.final('utf8');
+        return decrypted;
+    }
 
     generateRecoveryToken() {
         return new Promise((resolve, reject) => {
