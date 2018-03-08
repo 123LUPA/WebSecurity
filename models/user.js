@@ -22,6 +22,7 @@ class UserModel{
                 type: String,
                 validate: /^[a-z0-9._@]{5,}$/,
                 minLength: 5,
+                maxLength: 40,
                 required: true,
                 unique: true
             },

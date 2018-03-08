@@ -6,7 +6,8 @@ import mailer from '../services/mailer.service';
 import BaseController from "./base.controller";
 import taskModel from "../models/task";
 import checkTokenValidity from '../services/token.service';
-
+const key = Buffer.from('5ebe2294ecd0e0f08eab7690d2a6ee695ebe2294ecd0e0f08eab7690d2a6ee69', 'hex');
+const iv  = Buffer.from('26ae5cc854e36b6bdfca366848dea6bb', 'hex');
 
 class UserController extends BaseController{
 
@@ -21,7 +22,9 @@ class UserController extends BaseController{
     signUpUser(user){
         //hash password
         user.password = this.hashPassword(user.password);
-        //create new model
+        user.email = this.encrypt(user.email);
+        console.log(user.email);
+            //create new model
         let userObj = new this.userModel(user);
         //save new model
         return userObj.save();
@@ -30,8 +33,11 @@ class UserController extends BaseController{
     loginUser(data){
         return new Promise((resolve, reject)=>{
             //get user based on email
+
+            console.log(this.encrypt(data.email));
+
             this.userModel.findOne({
-                email: data.email
+                email: this.encrypt(data.email)
             }, (err, user)=>{
                 if(err) reject(err);
                 //if there is no user return false
@@ -71,7 +77,7 @@ class UserController extends BaseController{
             user.lockUntil = lock;
             user.loginAttempts = 0;
         }
-       return user.save();
+        return user.save();
     }
     comparePassword(plainPassword, hashedPassword){
         return bcrypt.compareSync(plainPassword, hashedPassword)
@@ -85,6 +91,14 @@ class UserController extends BaseController{
         //return hashed password
         return bcrypt.hashSync(password, salt);
     }
+
+     encrypt(email){
+        const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+        var crypted = cipher.update(email,'utf8','hex');
+        crypted += cipher.final('hex');
+        return crypted;
+    }
+
 
     generateRecoveryToken() {
         return new Promise((resolve, reject) => {
@@ -104,7 +118,7 @@ class UserController extends BaseController{
             this.userModel.findOne({email: email}, (err, user) => {
                 if (user) {
 
-                 return resolve(user);
+                    return resolve(user);
                 }
                 return reject(err);
 
@@ -142,46 +156,46 @@ class UserController extends BaseController{
     }
 
 
-forgotPassword(request){
+    forgotPassword(request){
 
         return new Promise((resolve, reject)=> {
 
 
-                //find if user exists
-                this.findUser(request.body.email).then((user)=>{
+            //find if user exists
+            this.findUser(request.body.email).then((user)=>{
 
-                    //generate token
-                        this.generateRecoveryToken().then((token)=>
-                        {
-                            //save token and expiry of it
-                                user.resetPasswordToken = token;
-                                user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+                //generate token
+                this.generateRecoveryToken().then((token)=>
+                {
+                    //save token and expiry of it
+                    user.resetPasswordToken = token;
+                    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
 
-                                //save the user
-                                user.save().then((saved)=>
-                                {
-                                        this.sendEmail(user,token,request);
-                                         return resolve(saved);
+                    //save the user
+                    user.save().then((saved)=>
+                    {
+                        this.sendEmail(user,token,request);
+                        return resolve(saved);
 
-                                    },(error)=>{
-                                        return reject(error);
-                                    });
-
-                                },(error)=>{
-                            return reject(error);
-                        });
-
-                        },(error)=>{
-                    return reject(error);
+                    },(error)=>{
+                        return reject(error);
                     });
 
-
                 },(error)=>{
+                    return reject(error);
+                });
+
+            },(error)=>{
+                return reject(error);
+            });
+
+
+        },(error)=>{
             return reject(error);
 
         }).catch((error)=>{
-                    reject(error);
-                }
+                reject(error);
+            }
         );
 
 
