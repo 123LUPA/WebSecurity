@@ -10,32 +10,36 @@ const key = Buffer.from('5ebe2294ecd0e0f08eab7690d2a6ee695ebe2294ecd0e0f08eab769
 const iv  = Buffer.from('26ae5cc854e36b6bdfca366848dea6bb', 'hex');
 
 class UserController extends BaseController{
-
-
     constructor(){
         super(userModel.getModel());
         this.userModel = userModel.getModel();
-
     }
-
     //signup user
     signUpUser(user){
-        //hash password
-        user.password = this.hashPassword(user.password);
-        user.email = this.encrypt(user.email);
-        console.log(user.email);
-            //create new model
-        let userObj = new this.userModel(user);
-        //save new model
-        return userObj.save();
+        //check for validation before allow signup
+        return new Promise((resolve, reject)=> {
+            if (this.companyNameValidator(user.companyName)&&
+                this.passwordValidation(user.password)&&
+                this.emailValidation(user.email)) {
+                //hash password
+                user.password = this.hashPassword(user.password);
+                user.email = this.encrypt(user.email);
+                console.log(user.email);
+                //create new model
+                let userObj = new this.userModel(user);
+                //save new model
+                return userObj.save();
+            }else{
+                return reject(error);
+            }
+        });
+
     }
     //login user
     loginUser(data){
         return new Promise((resolve, reject)=>{
             //get user based on email
-
             console.log(this.encrypt(data.email));
-
             this.userModel.findOne({
                 email: this.encrypt(data.email)
             }, (err, user)=>{
@@ -65,11 +69,9 @@ class UserController extends BaseController{
                     return reject({lock : user.lockUntil.toLocaleString()});
                 }
 
-
-            })
+            });
         });
     }
-
     addFailedLoginAttempt(user){
         user.loginAttempts+=1;
         if(user.loginAttempts>3){
@@ -82,7 +84,6 @@ class UserController extends BaseController{
     comparePassword(plainPassword, hashedPassword){
         return bcrypt.compareSync(plainPassword, hashedPassword)
     }
-
     hashPassword(password){
         //salt value
         const saltRounds = 10;
@@ -91,21 +92,18 @@ class UserController extends BaseController{
         //return hashed password
         return bcrypt.hashSync(password, salt);
     }
-
-     encrypt(email){
+    encrypt(email){
         const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
         var crypted = cipher.update(email,'utf8','hex');
         crypted += cipher.final('hex');
         return crypted;
     }
-
-     decrypt(email){
+    decrypt(email){
         var decipher = crypto.createCipheriv('aes-256-cbc', key, iv);
         var decrypted = decipher.update(email,'hex','utf8');
         decrypted += decipher.final('utf8');
         return decrypted;
     }
-
     generateRecoveryToken() {
         return new Promise((resolve, reject) => {
             crypto.randomBytes((16), (err, buf) => {
@@ -117,23 +115,17 @@ class UserController extends BaseController{
             });
         });
     }
-
     findUser(email) {
         return new Promise((resolve, reject) => {
-
             this.userModel.findOne({email: email}, (err, user) => {
                 if (user) {
-
                     return resolve(user);
                 }
                 return reject(err);
-
             });
         });
     }
-
     sendEmail(user,token,request){
-
         var mailOptions = {
             to: user.email,
             from: 'Palkovicova.lucia@gmail.com',
@@ -147,8 +139,6 @@ class UserController extends BaseController{
             console.log('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
         });
     }
-
-
     sendEmailPasswordChanged(email){
         var mailOptions = {
             to: email,
@@ -160,146 +150,114 @@ class UserController extends BaseController{
             if(err) console.log(err);
         });
     }
-
-
     forgotPassword(request){
-
         return new Promise((resolve, reject)=> {
-
-
             //find if user exists
             this.findUser(request.body.email).then((user)=>{
-
                 //generate token
-                this.generateRecoveryToken().then((token)=>
-                {
+                this.generateRecoveryToken().then((token)=> {
                     //save token and expiry of it
                     user.resetPasswordToken = token;
                     user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
-
                     //save the user
-                    user.save().then((saved)=>
-                    {
+                    user.save().then((saved)=> {
                         this.sendEmail(user,token,request);
                         return resolve(saved);
-
                     },(error)=>{
                         return reject(error);
                     });
-
                 },(error)=>{
                     return reject(error);
                 });
-
             },(error)=>{
                 return reject(error);
             });
-
-
         },(error)=>{
             return reject(error);
 
         }).catch((error)=>{
                 reject(error);
-            }
-        );
-
+        });
 
     }
 
     findUserByToken(req) {
-
         return new Promise((resolve, reject) => {
-
-
             console.log(req);
             //Find the user base on the token
-            this.userModel.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }).then((user)=>
-            {
+            this.userModel.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now()}})
+                .then((user)=> {
                 console.log(user);
                 return resolve(user);
-
-            },(error)=>
-            {
+            },(error)=> {
                 return reject(error);
-            })
-
-            ;
+            });
         });
-
     }
 
 
     findUserByEmailInToken(req) {
-
         return new Promise((resolve, reject) => {
-
-
             console.log(req.body.email);
             //Find the user base on the token
-            this.userModel.findOne({ email: req.body.email }).then((user)=>
-            {
+            this.userModel.findOne({ email: req.body.email }).then((user)=>{
                 return resolve(user);
-
-            },(error)=>
-            {
+            },(error)=>{
                 return reject(error);
-            })
-
-            ;
+            });
         });
-
     }
 
 
     findUserByEmailInToken(email) {
-
-
         return new Promise((resolve, reject) => {
-
             //Find the user base on the token
-            this.userModel.findOne({ email: email}).then((user)=>
-            {
+            this.userModel.findOne({ email: email}).then((user)=> {
                 return resolve(user);
-
-            },(error)=>
-            {
+            },(error)=>{
                 return reject(error);
-            })
-
-            ;
+            });
         });
     }
 
     setNewPassword(req){
-
         return new Promise((resolve, reject) => {
-
             //find the users based on the token
             this.findUserByToken(req).then((user)=>{
-
                 //hash the new password
                 user.password = this.hashPassword(req.body.password);
                 //set the reset token back to undefined
                 user.resetPasswordToken = undefined;
                 user.resetPasswordExpires = undefined;
-
                 //save user changes
                 user.save().then(saved => {
                     this.sendEmailPasswordChanged(user.email)
                     return resolve(user);
-
                 },(error=>{
                     return reject(error);
                 }));
-
-
             },(error=>{
                 return reject(error);
             }));
-
         });
+    }
 
+    /* validation functions:
+    * emailValidation: must contain letters, numbers, characters ._+@ case insensitive and min 5 characters
+    * companyNameValidation: must contain only letters and numbers, case insensitive, min 2 characters
+    * passwordValidation: can contain only characters !_.,* letters, numbers, case insensitive, min 6 characters
+    */
+    emailValidation(email){
+        const regEx_email = new RegExp(/^[a-zA-Z0-9._+]+@[a-z]+\.[a-z.]{2,5}$/);
+        return (regEx_email.test(email));
+    }
+    companyNameValidator(companyTitle){
+        const regEx_title = new RegExp(/^[a-zA-Z0-9]{2,}$/);
+        return (regEx_title.test(companyTitle));
+    }
+    passwordValidation(userPass){
+        const regEx_pass = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/);
+        return (regEx_pass.test(userPass));
     }
 
 }

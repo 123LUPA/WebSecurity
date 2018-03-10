@@ -15,12 +15,10 @@ class UserModel{
         this.userSchema = new this.Schema({
             companyName: {
                 type: String,
-                validate: /^[a-zA-Z0-9]{2,}$/,
-                minLength:2
+                minLength: 2
             },
             email: {
                 type: String,
-                validate: /^[a-z0-9._@]{5,}$/,
                 minLength: 5,
                 maxLength: 40,
                 required: true,
@@ -28,8 +26,7 @@ class UserModel{
             },
             password: {
                 type:String,
-                validate: /[0-9a-zA-Z]$/,
-                minLength:6,
+                minLength: 6,
                 maxLength: 20,
                 required: true
             },
@@ -64,6 +61,7 @@ class UserModel{
     getModel(){
         return this.userModel;
     }
+
 }
 const userModel =  new UserModel();
 
