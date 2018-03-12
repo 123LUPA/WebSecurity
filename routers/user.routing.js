@@ -1,7 +1,7 @@
 import express from 'express';
 import userController from '../controllers/user.controller';
 import {validateCaptcha} from '../services/captcha.service';
-import {checkTokenValidity} from "../services/token.service";
+import {checkTokenValidity} from "../services/token.service";;
 //define router
 let userRouter = express.Router();
 
@@ -223,6 +223,37 @@ userRouter.post('/login', (req, res)=>{
         }
         res.status(404).send('email or password is incorrect ');
     })
+});
+
+/**
+ * @swagger
+ * /users/update:
+ *  put:
+ *      tags:
+ *      - user
+ *      summary: update user data
+ *      description: edit user data based on userid and token
+ *      parameters:
+ *      - in: header
+ *        name: X-Access-Token
+ *        schema:
+ *      - in: body
+ *        name: user
+ *        schema:
+ *           $ref: '#/definitions/User'
+ *      responses:
+ *          200:
+ *              description: ok
+ *
+ */
+userRouter.put('/update',checkTokenValidity, function (req, res) {
+    userController.updateUserData(req.user._id, req.body).then((updated, err)=>{
+        if(err)
+            res.status(400).send(err);
+        res.send(updated);
+    }).catch((e)=>{
+        res.status(400).send(e.errmsg);
+    });
 });
 
 /**

@@ -4,8 +4,6 @@ import {generateToken} from '../services/token.service';
 import crypto from 'crypto';
 import mailer from '../services/mailer.service';
 import BaseController from "./base.controller";
-import speakeasy from 'speakeasy';
-import QRCode from 'qrcode';
 const key = Buffer.from('5ebe2294ecd0e0f08eab7690d2a6ee695ebe2294ecd0e0f08eab7690d2a6ee69', 'hex');
 const iv  = Buffer.from('26ae5cc854e36b6bdfca366848dea6bb', 'hex');
 
@@ -17,7 +15,6 @@ class UserController extends BaseController{
     }
     //signup user
     signUpUser(user){
-        console.log('The user is: ',user);
         //check for validation before allow signup
         return new Promise((resolve, reject)=> {
             if (this.companyNameValidator(user.companyName)&&
@@ -26,18 +23,8 @@ class UserController extends BaseController{
                 //hash password
                 user.password = this.hashPassword(user.password);
                 user.email = this.encrypt(user.email);
-                console.log(user.email);
-                //generate the authKey and attach to user
-                let authKey = speakeasy.generateSecret({length:20});
-                let userProObj = {
-                    authKey: authKey,
-                    password: user.password,
-                    email:user.email,
-                    companyName:user.companyName,
-                };
                 //create new model
-                let userObj = new this.userModel(userProObj);
-                console.log('New user is: ', userProObj);
+                let userObj = new this.userModel(user);
                 //save new model
                 return userObj.save();
             }else{
@@ -78,11 +65,6 @@ class UserController extends BaseController{
                 }
 
             });
-        });
-    }
-    validateQRCode(authKey){
-        QRCode.toDataURL(authKey.otpauth_url, function(err, data_url) {
-            console.log('dataurl is: ', data_url);
         });
     }
     addFailedLoginAttempt(user){
@@ -137,6 +119,46 @@ class UserController extends BaseController{
                 return reject(err);
             });
         });
+    }
+    /*
+      updateUserData takes two parameters:
+       - user_id : which is the user db id
+       - newUser_body : which is the new data for email, password and companyName
+      first find the user to be updated, if the user is in the database then go through validations of newUser_body
+      if validation of newUser_body doesn't pass, the old user data will not be changed with the new one - this doesn't trigger error
+       //TO DO:
+        - implement validation in frontend for user update data fields
+     */
+    updateUserData(user_id, newUser_body){
+        console.log('The user id parsed in updateUserData in user.controller.js is: ', user_id, ' and body is: ', newUser_body);
+        return new Promise((resolve, reject) => {
+            //find the user to be updated based on email
+            return this.userModel.findById(user_id,(err, user) => {
+                if(err)
+                    return reject(err);
+                let finalUser = user;
+                if(newUser_body.email!=null && this.emailValidation(newUser_body.email)){
+                    //encrypt the new email
+                    newUser_body.email = this.encrypt(newUser_body.email);
+                    finalUser.email = newUser_body.email;
+                }
+                if(newUser_body.password!=null && this.passwordValidation(newUser_body.password)){
+                    //hash the new password
+                    newUser_body.password = this.hashPassword(newUser_body.password);
+                    finalUser.password = newUser_body.password;
+                }
+                if(newUser_body.companyName!=null && this.companyNameValidator(newUser_body.companyName)){
+                    finalUser.companyName = newUser_body.companyName;
+                }
+                return user.update(finalUser).then((updated, err)=>{
+                    if(err)
+                        reject(err);
+                    resolve(updated);
+                });
+
+            });
+        });
+
     }
     delete_oneUser(id){
         //create promise
@@ -289,12 +311,6 @@ class UserController extends BaseController{
     passwordValidation(userPass){
         const regEx_pass = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/);
         return (regEx_pass.test(userPass));
-    }
-    generateQRCode(){
-        QRCode.toDataURL(authKey.otpauth_url, function(err, image_data) {
-            console.log(image_data); // A data URI for the QR code image
-            return image_data;
-        });
     }
 }
 

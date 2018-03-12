@@ -34,10 +34,6 @@ class UserModel{
                 type: String,
                 required: false
             },
-            authKey:{
-                type: Object,
-                required:true
-            },
             resetPasswordToken: {
                 type: String
             },
