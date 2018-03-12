@@ -17,7 +17,8 @@ export class SignupComponent implements OnInit {
   public passwordController;
   public companyNameController;
   public signupForm: FormGroup;
-  private EMAIL_PATTERN = /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/;
+  // for test of backend allow all entries in input filed: /^(.*?)/
+  private EMAIL_PATTERN = /^[a-zA-Z0-9._+]+@[a-z]+\.[a-z.]{2,5}$/;
   private PASS_PATTERN = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/;
   private COMPANY_PATTERN = /^[a-zA-Z0-9]{2,}$/;
 

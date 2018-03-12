@@ -15,36 +15,31 @@ class UserModel{
         this.userSchema = new this.Schema({
             companyName: {
                 type: String,
-                validate: /^[a-zA-Z0-9]{2,}$/,
-                minLength:2
+                minLength: 2
             },
             email: {
                 type: String,
-                validate: /^[a-z0-9._@]{5,}$/,
                 minLength: 5,
                 maxLength: 40,
                 required: true,
                 unique: true
             },
             password: {
-                type:String,
-                validate: /[0-9a-zA-Z]$/,
-                minLength:6,
+                type: String,
+                minLength: 6,
                 maxLength: 20,
                 required: true
             },
             token:{
-                type:String,
+                type: String,
                 required: false
             },
-
             resetPasswordToken: {
                 type: String
             },
             resetPasswordExpires: {
                 type: Date
             },
-
             loginAttempts: {
                 type: Number,
                 default: 0
@@ -56,7 +51,7 @@ class UserModel{
                 type: Date
             },
             lockUntil: {
-                type:Date,
+                type: Date,
                 default: new Date()
             },
         }, {versionKey: false})
@@ -64,6 +59,7 @@ class UserModel{
     getModel(){
         return this.userModel;
     }
+
 }
 const userModel =  new UserModel();
 
