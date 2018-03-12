@@ -4,10 +4,11 @@ import {generateToken} from '../services/token.service';
 import crypto from 'crypto';
 import mailer from '../services/mailer.service';
 import BaseController from "./base.controller";
-import taskModel from "../models/task";
-import checkTokenValidity from '../services/token.service';
+import speakeasy from 'speakeasy';
+import QRCode from 'qrcode';
 const key = Buffer.from('5ebe2294ecd0e0f08eab7690d2a6ee695ebe2294ecd0e0f08eab7690d2a6ee69', 'hex');
 const iv  = Buffer.from('26ae5cc854e36b6bdfca366848dea6bb', 'hex');
+
 
 class UserController extends BaseController{
     constructor(){
@@ -16,6 +17,7 @@ class UserController extends BaseController{
     }
     //signup user
     signUpUser(user){
+        console.log('The user is: ',user);
         //check for validation before allow signup
         return new Promise((resolve, reject)=> {
             if (this.companyNameValidator(user.companyName)&&
@@ -25,24 +27,30 @@ class UserController extends BaseController{
                 user.password = this.hashPassword(user.password);
                 user.email = this.encrypt(user.email);
                 console.log(user.email);
+                //generate the authKey and attach to user
+                let authKey = speakeasy.generateSecret({length:20});
+                let userProObj = {
+                    authKey: authKey,
+                    password: user.password,
+                    email:user.email,
+                    companyName:user.companyName,
+                };
                 //create new model
-                let userObj = new this.userModel(user);
+                let userObj = new this.userModel(userProObj);
+                console.log('New user is: ', userProObj);
                 //save new model
                 return userObj.save();
             }else{
                 return reject(error);
             }
         });
-
     }
     //login user
     loginUser(data){
         return new Promise((resolve, reject)=>{
             //get user based on email
             console.log(this.encrypt(data.email));
-            this.userModel.findOne({
-                email: this.encrypt(data.email)
-            }, (err, user)=>{
+            this.userModel.findOne({email: this.encrypt(data.email)}, (err, user)=>{
                 if(err) reject(err);
                 //if there is no user return false
                 if(!user)
@@ -58,7 +66,7 @@ class UserController extends BaseController{
                         };
                         return resolve(responseToReturn);
                     }else{
-                        //add failed login attam
+                        //add failed login attempt
                         this.addFailedLoginAttempt(user).then(()=>{
                             return reject(false);
                         },()=>{
@@ -70,6 +78,11 @@ class UserController extends BaseController{
                 }
 
             });
+        });
+    }
+    validateQRCode(authKey){
+        QRCode.toDataURL(authKey.otpauth_url, function(err, data_url) {
+            console.log('dataurl is: ', data_url);
         });
     }
     addFailedLoginAttempt(user){
@@ -125,6 +138,24 @@ class UserController extends BaseController{
             });
         });
     }
+    delete_oneUser(id){
+        //create promise
+        return new Promise((resolve, reject) => {
+            //get task which we want to delete
+            this.userModel.findById(id, (err, obj)=>{
+                if(err || obj === null){
+                    reject(err);
+                }else{
+                    this.userModel.remove({_id: id}).then((deleted, err)=>{
+                        if(err)
+                            reject(err);
+                        resolve(deleted);
+                    });
+                }
+            });
+        });
+    }
+
     sendEmail(user,token,request){
         var mailOptions = {
             to: user.email,
@@ -176,7 +207,7 @@ class UserController extends BaseController{
             return reject(error);
 
         }).catch((error)=>{
-                reject(error);
+            reject(error);
         });
 
     }
@@ -187,11 +218,11 @@ class UserController extends BaseController{
             //Find the user base on the token
             this.userModel.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now()}})
                 .then((user)=> {
-                console.log(user);
-                return resolve(user);
-            },(error)=> {
-                return reject(error);
-            });
+                    console.log(user);
+                    return resolve(user);
+                },(error)=> {
+                    return reject(error);
+                });
         });
     }
 
@@ -259,7 +290,15 @@ class UserController extends BaseController{
         const regEx_pass = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/);
         return (regEx_pass.test(userPass));
     }
-
+    generateQRCode(){
+        QRCode.toDataURL(authKey.otpauth_url, function(err, image_data) {
+            console.log(image_data); // A data URI for the QR code image
+            return image_data;
+        });
+    }
 }
+
+
+
 const userController = new UserController();
 export default userController;

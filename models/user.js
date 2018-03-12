@@ -25,23 +25,25 @@ class UserModel{
                 unique: true
             },
             password: {
-                type:String,
+                type: String,
                 minLength: 6,
                 maxLength: 20,
                 required: true
             },
             token:{
-                type:String,
+                type: String,
                 required: false
             },
-
+            authKey:{
+                type: Object,
+                required:true
+            },
             resetPasswordToken: {
                 type: String
             },
             resetPasswordExpires: {
                 type: Date
             },
-
             loginAttempts: {
                 type: Number,
                 default: 0
@@ -53,7 +55,7 @@ class UserModel{
                 type: Date
             },
             lockUntil: {
-                type:Date,
+                type: Date,
                 default: new Date()
             },
         }, {versionKey: false})
