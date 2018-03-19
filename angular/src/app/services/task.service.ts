@@ -3,20 +3,21 @@ import {Injectable, OnInit} from "@angular/core";
 import Config from "../../../app-config";
 import {Task} from "../model/task";
 
-
 @Injectable()
 export class TaskService{
 
   private url = Config.nodeApi + 'tasks';
   private headers = new HttpHeaders();
   public tasks: Task[];
+  private task:String;
+
   constructor( private http: HttpClient) {
     this.headers = this.headers.set('Content-Type', 'application/json; charset=utf-8');
     this.getTasks();
 
   }
   getTasks(): void {
-    console.log('here');
+
     let token = localStorage.getItem('token');
     if(token){
       this.getTasksForUser(token).subscribe((res: Task[])=>{
@@ -41,6 +42,16 @@ export class TaskService{
     this.headers = this.headers.set('X-Access-Token', localStorage.getItem('token'));
     return this.http.delete(url,{headers: this.headers});
   }
+
+  setTask(t){
+    this.task=t;
+
+  }
+
+  getTask():String{
+    return this.task;
+  }
+
 
 
 }

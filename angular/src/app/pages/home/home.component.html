@@ -10,6 +10,7 @@
     <p>Don't be shy and <span class="action" routerLink="create-task">create one</span>!</p>
   </div>
   <div class="task-holder" *ngIf="taskService.tasks && taskService.tasks.length >= 1 && userService.user">
+    <p>{{request| async}}</p>
     <div class="task-holder--header">
       <h3>Dashboard:</h3>
       <button mat-button class="mat-raised-button mat-primary" routerLink="create-task">Create task</button>
@@ -20,6 +21,7 @@
           <i class="material-icons" (click)="deleteTask(task._id)">
             delete
           </i>
+          <i class="material-icons" (click)="shareTask(task)">share</i>
         </div>
         <div>{{task.author}}</div>
       </div>

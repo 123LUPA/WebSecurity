@@ -1,0 +1,25 @@
+
+<div class="example-container">
+  <mat-card>
+    <form [formGroup]="shareTaskForm" #formDir="ngForm" (ngSubmit)="shareTask(email)" novalidate>
+      <h2>Type in the friends' email you want to share the task with</h2>
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput type="email" class="form-control" required formControlName="email" placeholder="Email">
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <button mat-raised-button color="primary" type="submit">Submit!</button>
+      </div>
+    </form>
+
+    <!--<div class="submitted-message" *ngIf="formDir.submitted" NgIf="">
+
+      <mat-card-content>The email was sent to rest your password</mat-card-content>
+      <button [routerLink]="['../login']">Ok</button>
+
+    </div>
+-->
+  </mat-card>
+</div>
+

@@ -10,6 +10,8 @@ class TaskController  extends BaseController{
     getuserstasks(userId){
         return this.taskModel.find({postedBy: userId});
     }
+
+
     deleteOne(id, userId){
         //create promise
         return new Promise((resolve, reject) => {
