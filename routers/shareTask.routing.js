@@ -25,11 +25,11 @@ shareTaskRouter.post('/:id', checkTokenValidity, (req, res)=> {
 
 shareTaskRouter.get('/requests',checkTokenValidity, function(req, res) {
 
-    shareTaskController.getShareTaskRequest(req.user.email).then((requesterName,err)=>{
+    shareTaskController.getShareTaskRequest(req.user.email).then((taks,err)=>{
      if(err){
          res.send(400);
      }
-        console.log(requesterName);
+        console.log(taks, '<------ this is your tasks Lucia');
     });
 });
 
