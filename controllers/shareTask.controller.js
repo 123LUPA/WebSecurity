@@ -1,9 +1,10 @@
 import boardModel from '../models/board';
 import BaseController from './base.controller';
 import {decrypt} from '../services/encryption.service';
+import taskController from "../controllers/task.controller";
+
 import {encrypt} from '../services/encryption.service';
 import userController from '../controllers/user.controller';
-import taskController from '../controllers/task.controller'
 import forEachAsync from 'forEachAsync';
 class ShareTaskController  extends BaseController {
 
@@ -27,24 +28,43 @@ class ShareTaskController  extends BaseController {
         var activity = [];
 
         return new Promise((resolve, reject) => {
-
-            var decryptedemail = decrypt(userEmail);
-
-            console.log(decryptedemail);
+            //array for storing promises
+            let promises = [];
+            let tasks = [];
+            let decryptedemail = decrypt(userEmail);
 
             this.model.find({requestReceiver: decryptedemail}, (err, requests) => {
-
                 if (err) return reject(err);
-
-                    requests.forEach(err,request=>{
-
-                        userController.userModel.findOne({_id: request.requestSender}, (err, user) => {
-
-                            requestSenders.push(user.companyName);
+                //loop through requested tasks
+                requests.forEach(requestedTask =>{
+                    //create variable which holds promises
+                    let promise = taskController.getById(requestedTask.taskId).then((task, err)=>{
+                        tasks.push(task)
                     });
+                    //push to promise array
+                    promises.push(promise);
+
+                });
+                //when all promises are done
+                Promise.all(promises).then(()=>{
+                    //resole first promise :)
+                    resolve(tasks);
+                })
+
+                // taskController.getById()
+                //tasks
+
+
+
+                    // requests.forEach(err,request=>{
+
+                        // userController.userModel.findOne({_id: request.requestSender}, (err, user) => {
+                        //
+                        //     requestSenders.push(user.companyName);
+                    // });
                 });
             });
-        });
+        // });
     }
 }
 const shareTaskController = new ShareTaskController();
