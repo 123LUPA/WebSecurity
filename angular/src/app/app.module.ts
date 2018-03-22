@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
 import {ToastModule, ToastOptions} from 'ng2-toastr/ng2-toastr';
 import { AppComponent } from './app.component';
@@ -30,6 +30,8 @@ import {CreateComponentOptions} from "@angular/core/src/render3/component";
 import {CreateTaskComponent} from "./pages/create-task/create-task.component";
 import {TaskService} from "./services/task.service";
 import {HomeService} from "./services/home.service";
+import {ShareTaskComponent} from "./pages/share-task/share-task.component";
+import {ShareTaskService} from "./services/shareTask.service";
 
 export class CustomOption extends ToastOptions {
   showCloseButton = true;
@@ -47,7 +49,8 @@ export class CustomOption extends ToastOptions {
     ForgotComponent,
     NewComponent,
     HeaderComponent,
-    CreateTaskComponent
+    CreateTaskComponent,
+    ShareTaskComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +72,7 @@ export class CustomOption extends ToastOptions {
 
   ],
   providers: [HomeService, LoginService, SignupService, ForgotService, NewPasswordService,
-    AuthGuard, UserService, TaskService,
+    AuthGuard, UserService, TaskService,ShareTaskService,
     {provide: ToastOptions, useClass: CustomOption}],
   bootstrap: [AppComponent]
 })

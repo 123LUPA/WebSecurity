@@ -45,14 +45,14 @@ let taskRouter = express.Router();
  *
  */
 taskRouter.post('/', checkTokenValidity, (req, res)=> {
-    // console.log(req.body, req.user);
+
     req.body['postedBy'] = req.user._id;
+
     taskController.create(req.body).then((created, err)=>{
         if(err)
             res.status(400).send(err);
         res.send(created);
     }).catch((e)=>{
-        console.log(e);
         res.status(400).send(e);
     });
 });
@@ -100,7 +100,7 @@ taskRouter.get('/', function(req, res) {
  */
 
 taskRouter.get('/user', checkTokenValidity, function(req, res) {
-    console.log("you are gonna get taks");
+
     taskController.getuserstasks(req.user._id).then((tasks, err)=>{
         if(err)
             res.status(400).send(err);
@@ -133,7 +133,6 @@ taskRouter.get('/user', checkTokenValidity, function(req, res) {
  */
 taskRouter.delete('/:taskId', checkTokenValidity, function (req, res) {
     taskController.deleteOne(req.params.taskId, req.user._id).then((deleted, err)=> {
-        console.log(err, "<-- here")
         res.send(deleted);
     }, err=>{
         res.status(400).send(err);
@@ -178,4 +177,7 @@ taskRouter.put('/:id', function (req, res) {
         res.status(400).send(e.errmsg);
     });
 });
+
+
+
 export default taskRouter;

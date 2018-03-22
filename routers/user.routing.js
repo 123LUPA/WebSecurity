@@ -1,7 +1,6 @@
 import express from 'express';
 import userController from '../controllers/user.controller';
 import {validateCaptcha} from '../services/captcha.service';
-import {checkTokenValidity} from "../services/token.service";;
 //define router
 let userRouter = express.Router();
 
@@ -93,13 +92,13 @@ userRouter.get('/', function(req, res) {
  *
  */
 userRouter.post('/signup', validateCaptcha, (req, res)=> {
-    userController.signUpUser(req.body)/*.then((created, err)=>{
+    userController.signUpUser(req.body).then((created, err)=>{
         if(err)
             res.status(400).send(err);
         res.send(created);
     }).catch((e)=>{
         res.status(400).send(e.errmsg);
-    });*/
+    });
 });
 
 /**
@@ -130,64 +129,6 @@ userRouter.post('/signupDev', (req, res)=> {
     });
 });
 
-/**
- * @swagger
- * /users/{userId}:
- *  delete:
- *      tags:
- *      - user
- *      summary: delete user by id
- *      description: delete specific user based on id
- *      parameters:
- *      - in: path
- *        name: userId
- *        schema:
- *          type: string
- *      - in: header
- *        name: X-Access-Token
- *        schema:
- *          type: string
- *      responses:
- *          200:
- *              description: ok
- */
-userRouter.delete('/:userId', checkTokenValidity, function (req, res) {
-    userController.delete_oneUser(req.params.userId).then((deleted, err) => {
-        console.log(err, "<-- here");
-        res.send(deleted);
-    }, err => {
-        res.status(400).send(err);
-
-    });
-});
-
-//this should be CHANGED after implementing admin roles (it's just for cleaning up without token)
-/**
- * @swagger
- * /users/dev/{userId}:
- *  delete:
- *      tags:
- *      - user
- *      summary: delete user by id -- NO TOKEN REQUIRED
- *      description: delete specific user based on id -- NO TOKEN REQUIRED
- *      parameters:
- *      - in: path
- *        name: userId
- *        schema:
- *          type: string
- *      responses:
- *          200:
- *              description: ok
- */
-//this should be CHANGED after implementing admin roles
-userRouter.delete('/dev/:userId', function (req, res) {
-    userController.delete_oneUser(req.params.userId).then((deleted, err) => {
-        console.log(err, "<-- here");
-        res.send(deleted);
-    }, err => {
-        res.status(400).send(err);
-    });
-});
 
 /**
  * @swagger
@@ -227,37 +168,6 @@ userRouter.post('/login', (req, res)=>{
 
 /**
  * @swagger
- * /users/update:
- *  put:
- *      tags:
- *      - user
- *      summary: update user data
- *      description: edit user data based on userid and token
- *      parameters:
- *      - in: header
- *        name: X-Access-Token
- *        schema:
- *      - in: body
- *        name: user
- *        schema:
- *           $ref: '#/definitions/User'
- *      responses:
- *          200:
- *              description: ok
- *
- */
-userRouter.put('/update',checkTokenValidity, function (req, res) {
-    userController.updateUserData(req.user._id, req.body).then((updated, err)=>{
-        if(err)
-            res.status(400).send(err);
-        res.send(updated);
-    }).catch((e)=>{
-        res.status(400).send(e.errmsg);
-    });
-});
-
-/**
- * @swagger
  * /users/forgot:
  *  post:
  *      tags:
@@ -281,6 +191,7 @@ userRouter.post('/forgot', (req, res)=>{
     console.log("here");
     userController.forgotPassword(req).then((data)=>{
 
+
         res.send(data);
 
     }).catch(err=>{
@@ -290,26 +201,32 @@ userRouter.post('/forgot', (req, res)=>{
 
 
 //Link from the email checks if the user who wanted to change the password exists and the token is not expired
-userRouter.get('/reset/:token', function (req, res) {
-    userController.findUserByToken(req).then((user) => {
+userRouter.get('/reset/:token', function(req, res) {
+
+    userController.findUserByToken(req).then((user)=>{
+
         if (!user) {
             //If user does not exist navigate to forgot password form
             return res.redirect('http://localhost:4200/#/forgot');
-        }
+    }
+
         //else navigate to rest form where user can type new password
-        return res.redirect('http://' + 'localhost:4200/#' + '/reset/' + req.params.token);
+        return res.redirect('http://' + 'localhost:4200/#' + '/reset/'+ req.params.token);
     });
+
 });
 
 //Submmit new password
-userRouter.post('/reset/:token', function (req, res) {
-    userController.setNewPassword(req).then((data) => {
-        if (!data) {
+userRouter.post('/reset/:token', function(req, res) {
+
+    userController.setNewPassword(req).then((data)=>{
+        if(!data){
             res.sendStatus(500);
         }
         res.send(data);
-    })
-});
 
+    })
+
+});
 
 export default userRouter;
