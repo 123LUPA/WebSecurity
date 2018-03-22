@@ -24,7 +24,7 @@ class UserController extends BaseController{
         user.password = this.hashPassword(user.password);
         user.email = this.encrypt(user.email);
         console.log(user.email);
-            //create new model
+        //create new model
         let userObj = new this.userModel(user);
         //save new model
         return userObj.save();
@@ -92,14 +92,14 @@ class UserController extends BaseController{
         return bcrypt.hashSync(password, salt);
     }
 
-     encrypt(email){
+    encrypt(email){
         const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
         var crypted = cipher.update(email,'utf8','hex');
         crypted += cipher.final('hex');
         return crypted;
     }
 
-     decrypt(email){
+    decrypt(email){
         var decipher = crypto.createCipheriv('aes-256-cbc', key, iv);
         var decrypted = decipher.update(email,'hex','utf8');
         decrypted += decipher.final('utf8');
@@ -166,9 +166,8 @@ class UserController extends BaseController{
 
         return new Promise((resolve, reject)=> {
 
-
             //find if user exists
-            this.findUser(request.body.email).then((user)=>{
+            this.findUser(this.encrypt(request.body.email)).then((user)=>{
 
                 //generate token
                 this.generateRecoveryToken().then((token)=>
@@ -180,6 +179,7 @@ class UserController extends BaseController{
                     //save the user
                     user.save().then((saved)=>
                     {
+
                         this.sendEmail(user,token,request);
                         return resolve(saved);
 
@@ -280,6 +280,7 @@ class UserController extends BaseController{
 
                 //hash the new password
                 user.password = this.hashPassword(req.body.password);
+                user.email = this.encrypt(user.email);
                 //set the reset token back to undefined
                 user.resetPasswordToken = undefined;
                 user.resetPasswordExpires = undefined;

@@ -8,8 +8,6 @@ import boardModel from '../models/board';
 
 shareTaskRouter.post('/:id', checkTokenValidity, (req, res)=> {
 
-
-
     req.body['requestSender'] = req.user._id;
     req.body['taskId'] = req.body.taskId;
 
@@ -25,11 +23,12 @@ shareTaskRouter.post('/:id', checkTokenValidity, (req, res)=> {
 
 shareTaskRouter.get('/requests',checkTokenValidity, function(req, res) {
 
-    shareTaskController.getShareTaskRequest(req.user.email).then((taks,err)=>{
+    shareTaskController.getShareTaskRequest(req.user.email).then((tasks,err)=>{
      if(err){
          res.send(400);
      }
-        console.log(taks, '<------ this is your tasks Lucia');
+
+        res.json({tasks: tasks});
     });
 });
 

@@ -15,7 +15,6 @@ export class UserService {
     }else{
       this.user = user;
     }
-
     this.userEmiter.emit(this.user);
   }
 }

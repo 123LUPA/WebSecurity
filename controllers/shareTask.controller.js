@@ -18,7 +18,6 @@ class ShareTaskController  extends BaseController {
 
         let userObj = new this.boardModel(board);
         //save new model
-
         return userObj.save();
     }
 
@@ -39,7 +38,10 @@ class ShareTaskController  extends BaseController {
                 requests.forEach(requestedTask =>{
                     //create variable which holds promises
                     let promise = taskController.getById(requestedTask.taskId).then((task, err)=>{
-                        tasks.push(task)
+                        if(task!=null){
+                            tasks.push(task)
+
+                        }
                     });
                     //push to promise array
                     promises.push(promise);
@@ -47,7 +49,10 @@ class ShareTaskController  extends BaseController {
                 });
                 //when all promises are done
                 Promise.all(promises).then(()=>{
+
                     //resole first promise :)
+
+                    console.log("here");
                     resolve(tasks);
                 })
 

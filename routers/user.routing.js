@@ -191,6 +191,7 @@ userRouter.post('/forgot', (req, res)=>{
     console.log("here");
     userController.forgotPassword(req).then((data)=>{
 
+
         res.send(data);
 
     }).catch(err=>{

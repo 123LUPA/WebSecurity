@@ -15,16 +15,17 @@ export class HomeComponent{
 
   user: User;
   homeService;
-  request;
+
 
   constructor(public userService: UserService, public hoS:HomeService,public shareTaskSevice: ShareTaskService, public taskService: TaskService,public router:Router) {
-    this.homeService = hoS;
 
+    this.homeService = hoS;
     this.reloadHomePage(localStorage.getItem('token'));
-    this.request = this.shareTaskSevice.getFriendRequest();
 
     userService.userEmiter.subscribe({next: ()=>{
       this.taskService.getTasks();
+      this.shareTaskSevice.getFriendsTasks();
+
 
     }});
   }
@@ -32,6 +33,7 @@ export class HomeComponent{
     this.taskService.deleteTask(taskId).subscribe((res)=>{
       console.log(res);
       this.taskService.getTasks();
+      this.shareTaskSevice.getFriendsTasks();
     },err=>{
 
     });
@@ -47,7 +49,6 @@ export class HomeComponent{
   }
 
   shareTask(task){
-
     this.taskService.setTask(task._id);
     this.router.navigate(['/share-task/'+task._id]);
 
