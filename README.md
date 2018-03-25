@@ -1,3 +1,9 @@
+Docker
+1. Install docker for your operating system
+2. Enable connection link between backend and mongo db in config.js /*mongoUrl : 'mongodb://mongo:27017/websecurity'*/
+3. Run docker-compose up (in Windows PowerShell - if Windows OS)
+4. The application will be accessible through browser
+
 Front-End
 
 1. run npm install in the angular folder
