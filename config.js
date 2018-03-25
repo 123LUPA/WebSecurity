@@ -5,7 +5,9 @@
 //     'secret': 'ilovescotchyscotch',
 // };
 const config = {
-    mongoUrl : 'mongodb://localhost:27017/websecurity'
+    //run for the docker container
+    mongoUrl : 'mongodb://mongo:27017/websecurity'
+    //mongoUrl : 'mongodb://localhost:27017/websecurity'
 };
 // const url = 'mongodb://websiteWatcher:websiteWatcher123@ds251827.mlab.com:51827/heroku_7l6c835k';
 export  default config;
