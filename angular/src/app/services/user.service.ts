@@ -11,10 +11,13 @@ export class UserService {
   }
   public setUser(user){
     if(user){
-      this.user = new User(user.companyName, user.email, user.password);
+      this.user = new User(user.companyName, user.email, user.password, user.image);
     }else{
       this.user = user;
     }
     this.userEmiter.emit(this.user);
   }
+
+
+
 }

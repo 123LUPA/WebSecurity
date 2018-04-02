@@ -11,8 +11,10 @@ export class SignupService {
 
   signUserIn (User,captcha) {
 
+
     this.http
-      .post(this.testUrl +'users/signup', {companyName: User.companyName,email: User.email, password: User.password,captcha:captcha}, )
+      .post(this.testUrl +'users/signup', {companyName: User.companyName,email: User.email,
+        password: User.password, image: User.image,captcha:captcha}, )
       .subscribe(
         // Successful responses call the first callback.
         data => {
@@ -26,5 +28,9 @@ export class SignupService {
           console.log('Something went wrong!', err);
         }
       );}
+    saveImage(img) {
+    const url = this.testUrl + 'users/image';
+    return this.http.post(url, {src: img.src});
+  }
 
 }

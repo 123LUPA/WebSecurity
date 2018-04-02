@@ -14,7 +14,11 @@ let swagger = new Swagger();
 let app = express();
 
 app.use(cors());
-
+app.use(bodyParser.json({limit: '1mb'}) );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+    extended: true,
+    limit: '1mb'
+}));
 
 // mongoose.connect('mongodb://localhost/logletter_database'); // connect to database
 app.set('superSecret', config.secret); // secret variable
@@ -28,7 +32,7 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-
+app.use('/images', express.static('images/profiles'));
 app.use('/users', userRouter);
 app.use('/tasks', taskRouter);
 app.use('/shareTask',shareTaskRouter),

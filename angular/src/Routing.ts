@@ -7,12 +7,14 @@ import {ForgotComponent} from "./app/forgot/forgot.component";
 import {NewComponent} from "./app/new/new.component";
 import {CreateTaskComponent} from "./app/pages/create-task/create-task.component";
 import {ShareTaskComponent} from "./app/pages/share-task/share-task.component";
+import {ProfileComponent} from "./app/pages/profile/profile.component";
 
 const appRoutes: Routes = [
 
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: '' , component: HomeComponent},
+  { path: 'profile', component: ProfileComponent},
   { path: 'forgot', component: ForgotComponent },
   { path: 'reset/:token',component: NewComponent },
   {path: 'create-task', canActivate:[AuthGuard],component: CreateTaskComponent},

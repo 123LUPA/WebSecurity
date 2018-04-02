@@ -39,6 +39,15 @@
           </div>
         </mat-form-field>
       </div>
+      <image-upload [max]="1"
+                    [extensions]="['png']"
+                    buttonCaption="Upload profile image"
+                    dropBoxMessage="Please use *.png images"
+                    (uploadFinished)="onUploadFinished($event)"
+                    (removed)="onRemoved()">
+
+      </image-upload>
+      <mat-error *ngIf="imgError">{{imgError}}</mat-error>
       <div class="form-group">
         <re-captcha (resolved)="resolved($event)" siteKey="6LeAUkYUAAAAAGEZOgG1nP60bCUxw70M-EFn7VQr"></re-captcha>
         <button mat-raised-button color="primary" type="submit" [disabled]="!signupForm.valid">Sign Up!</button>
