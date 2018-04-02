@@ -1,6 +1,9 @@
 import express from 'express';
 import userController from '../controllers/user.controller';
 import {validateCaptcha} from '../services/captcha.service';
+import randomString from 'randomstring';
+import fs from 'fs';
+
 //define router
 let userRouter = express.Router();
 
@@ -227,6 +230,17 @@ userRouter.post('/reset/:token', function(req, res) {
 
     })
 
+});
+
+//upload image
+userRouter.post('/image', (req, res) => {
+    const image = randomString.generate() + '.png';
+    let base64Data = req.body.src.replace(/^data:image\/png;base64,/, "");
+    const file = './images/profiles/'+ image;
+    fs.writeFile(file, base64Data, 'base64', function(err) {
+        console.log(err, '<----err');
+    });
+    res.send({imgUrl: image})
 });
 
 export default userRouter;

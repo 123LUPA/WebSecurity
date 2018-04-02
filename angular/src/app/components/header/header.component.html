@@ -8,7 +8,7 @@
       <p routerLink="login">login</p>
     </div>
     <div class="action-buttons--user" *ngIf="userService.user">
-      <p class="name">Welcome, {{userService.user.companyName}}</p>
+      <p class="name" routerLink="profile">Welcome, {{userService.user.companyName}}</p>
       <button mat-button class="mat-raised-button mat-primary" (click)="logout()">Logout</button>
     </div>
   </div>

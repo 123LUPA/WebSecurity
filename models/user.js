@@ -59,6 +59,9 @@ class UserModel{
                 type:Date,
                 default: new Date()
             },
+            image: {
+                type: String
+            }
         }, {versionKey: false})
     }
     getModel(){

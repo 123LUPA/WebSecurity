@@ -20,12 +20,27 @@ export class SignupComponent implements OnInit {
   private EMAIL_PATTERN = /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/;
   private PASS_PATTERN = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/;
   private COMPANY_PATTERN = /^[a-zA-Z0-9]{2,}$/;
+  public img;
+  public imgError;
+  public img_url;
 
   constructor(signUp : SignupService, public toastr: ToastsManager,
               vcr: ViewContainerRef, private formBuilder : FormBuilder) {
     this.SignUpS = signUp;
     this.toastr.setRootViewContainerRef(vcr);
     this.buildForm();
+  }
+  public onUploadFinished(event) {
+    console.log('img updated', event);
+    this.img = event;
+    this.imgError = false;
+    this.SignUpS.saveImage(this.img).subscribe(res => {
+      this.img_url = res['imgUrl'];
+      console.log('This is image url after image was uploaded and saved: ', this.img_url );
+    }, err => {
+      this.imgError = 'Image is too big please upload img smaller than 1mb';
+      console.log(err);
+    });
   }
   public buildForm(){
     this.signupForm = new FormGroup ({
@@ -51,22 +66,33 @@ export class SignupComponent implements OnInit {
 
   }
   signup () {
-    this.user={
-      companyName: this.signupForm.controls.companyName.value,
-      email: this.signupForm.controls.email.value,
-      password: this.signupForm.controls.password.value
+    if(this.img){
+      this.user={
+        companyName: this.signupForm.controls.companyName.value,
+        email: this.signupForm.controls.email.value,
+        password: this.signupForm.controls.password.value,
+        image: this.img_url
+      };
+      if (this.signupForm.controls.companyName.value && this.signupForm.controls.email.value && this.signupForm.controls.password.value) {
+        this.SignUpS.signUserIn(this.user,this.captcha);
+      } else {
+        this.toastr.error('Fill all the fields');
+      }
+
+    }else{
+      this.imgError = 'Please upload image';
     }
-    if (this.signupForm.controls.companyName.value && this.signupForm.controls.email.value && this.signupForm.controls.password.value) {
-      this.SignUpS.signUserIn(this.user,this.captcha);
-    } else {
-      this.toastr.error('Fill all the fields');
-    }
+
   }
   resolved(captchaResponse: string) {
     this.captcha = captchaResponse;
     console.log("Captcha"+this.captcha);
   }
   ngOnInit() {
+  }
+  public onRemoved() {
+    this.img = null;
+    this.imgError = ''
   }
 
 }
