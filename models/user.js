@@ -61,7 +61,13 @@ class UserModel{
             },
             image: {
                 type: String
+            },
+            role: {
+                type: String,
+                required: true
+
             }
+
         }, {versionKey: false})
     }
     getModel(){

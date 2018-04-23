@@ -71,7 +71,8 @@ export class SignupComponent implements OnInit {
         companyName: this.signupForm.controls.companyName.value,
         email: this.signupForm.controls.email.value,
         password: this.signupForm.controls.password.value,
-        image: this.img_url
+        image: this.img_url,
+        role: 'user'
       };
       if (this.signupForm.controls.companyName.value && this.signupForm.controls.email.value && this.signupForm.controls.password.value) {
         this.SignUpS.signUserIn(this.user,this.captcha);
