@@ -5,6 +5,7 @@ import {HomeService} from "../../services/home.service";
 import {TaskService} from "../../services/task.service";
 import {Router} from "@angular/router";
 import {ShareTaskService} from "../../services/shareTask.service";
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,7 @@ export class HomeComponent{
   constructor(public userService: UserService, public hoS:HomeService,public shareTaskSevice: ShareTaskService, public taskService: TaskService,public router:Router) {
 
     this.homeService = hoS;
-    this.reloadHomePage(localStorage.getItem('token'));
+    this.reloadHomePage( Cookie.get('token'));
 
     userService.userEmiter.subscribe({next: ()=>{
       this.taskService.getTasks();

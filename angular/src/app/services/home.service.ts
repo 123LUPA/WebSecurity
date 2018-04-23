@@ -3,12 +3,13 @@ import {HttpClient} from "@angular/common/http";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import {Router} from "@angular/router";
 import {UserService} from "./user.service";
+import Config from "../../../app-config";
 
 @Injectable()
 export class HomeService {
 
 
-  private testUrl = 'http://localhost:3000';
+  private testUrl = Config.nodeApi;
 
   constructor( private http: HttpClient, private push: ToastsManager,
                private router:Router,private userService: UserService) {

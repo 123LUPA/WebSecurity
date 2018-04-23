@@ -2,6 +2,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable, OnInit} from "@angular/core";
 import Config from "../../../app-config";
 import {Task} from "../model/task";
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 @Injectable()
 export class TaskService{
@@ -10,6 +11,7 @@ export class TaskService{
   private headers = new HttpHeaders();
   public tasks: Task[];
   private task:String;
+  private token = Cookie.get("token");
 
   constructor( private http: HttpClient) {
     this.headers = this.headers.set('Content-Type', 'application/json; charset=utf-8');
@@ -18,7 +20,7 @@ export class TaskService{
   }
   getTasks(): void {
 
-    let token = localStorage.getItem('token');
+    let token = this.token;
     if(token){
       this.getTasksForUser(token).subscribe((res: Task[])=>{
         this.tasks = res['tasks'];
@@ -28,18 +30,18 @@ export class TaskService{
     }
   }
   createEvent(task: Task){
-    this.headers = this.headers.set('X-Access-Token', localStorage.getItem('token'));
+    this.headers = this.headers.set('X-Access-Token', this.token);
    return this.http.post(this.url, task, {headers: this.headers});
   }
   getTasksForUser(token){
     let url = this.url + '/user';
-    this.headers = this.headers.set('X-Access-Token', token);
+    this.headers = this.headers.set('X-Access-Token', this.token);
     return this.http.get(url, {headers: this.headers});
   }
   deleteTask(taskId){
     let url = this.url + '/' + taskId;
 
-    this.headers = this.headers.set('X-Access-Token', localStorage.getItem('token'));
+    this.headers = this.headers.set('X-Access-Token', this.token);
     return this.http.delete(url,{headers: this.headers});
   }
 
