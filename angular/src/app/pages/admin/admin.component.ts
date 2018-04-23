@@ -1,5 +1,6 @@
 import {UserService} from "../../services/user.service";
 import {Component} from "@angular/core";
+import {UsersService} from "../../services/users.service";
 
 @Component({
   templateUrl: './admin.component.html',
@@ -7,8 +8,13 @@ import {Component} from "@angular/core";
 })
 export class AdminComponent{
 
-  constructor(public userService: UserService) {
-
+  constructor(public usersService: UsersService) {
+    this.getAllUsers();
+  }
+  getAllUsers(){
+    this.usersService.getUsers().subscribe((users)=>{
+      console.log('users', users);
+    })
   }
 
 

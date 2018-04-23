@@ -4,7 +4,8 @@
     <p>Please <span class="action" routerLink="signup">Sign up</span> or
       <span class="action" routerLink="login">login</span> to enjoy full functionality</p>
   </div>
-  <button mat-button class="mat-raised-button  mat-primary" routerLink="admin">Admin panel</button>
+  <button mat-button class="mat-raised-button  mat-primary"
+          routerLink="admin" *ngIf="userService.user && userService.user.role === 'admin'">Admin panel</button>
 
   <!--if user logged and no tasks-->
   <div class="home--quest" *ngIf="userService.user && taskService.tasks && taskService.tasks.length === 0 &&shareTaskSevice.tasks && shareTaskSevice.tasks.length === 0">

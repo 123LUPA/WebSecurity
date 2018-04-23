@@ -4,7 +4,7 @@
 import { Injectable } from '@angular/core';
 import {Router, CanActivate, ActivatedRouteSnapshot} from '@angular/router';
 import {UserService} from "./services/user.service";
-
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 @Injectable()
 export class AuthGuard implements CanActivate {
 
@@ -12,17 +12,18 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot) {
     //check if user wants to go to admin page
-    if(route.url[0].path === 'admin'){
+    if(route.url[0].path === 'admin') {
       //check if user has an admin role
-     if(this.userService.user.role === 'admin'){
-       return true;
-     }else{
-       this.router.navigate(['']);
-       return false;
-
-     }
+      // if (this.userService.user.role === 'admin') {
+      //   return true;
+      // } else {
+      //   this.router.navigate(['']);
+      //   return false;
+      //
+      // }
     }
-    if (localStorage.getItem('token')) {
+    // }
+    if (Cookie.get('token')) {
       // logged in so return true
       return true;
     }
