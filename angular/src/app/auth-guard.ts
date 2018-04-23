@@ -3,6 +3,7 @@
  */
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -10,7 +11,7 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router) { }
 
   canActivate() {
-    if (localStorage.getItem('token')) {
+    if (Cookie.get('token')) {
       // logged in so return true
       return true;
     }

@@ -4,11 +4,12 @@ import {ToastsManager } from 'ng2-toastr/ng2-toastr';
 import {Router} from "@angular/router";
 import {UserService} from "./user.service";
 import Config from "../../../app-config";
+import { Cookie } from 'ng2-cookies/ng2-cookies';
+
 @Injectable()
 export class LoginService {
 
    message;
-
   private testUrl = Config.nodeApi;
 
   constructor( private http: HttpClient, private push: ToastsManager, private router:Router,
@@ -27,7 +28,7 @@ export class LoginService {
             if(data['success']) {
               let token = data['token'];
               let user = data['user'];
-              localStorage.setItem('token', token );
+              Cookie.set('token', token );
               this.router.navigate(['']);
               this.userService.setUser(data['user']);
               resolve(data['message']);
@@ -41,7 +42,7 @@ export class LoginService {
   }
 
   logout(){
-    localStorage.clear();
+    Cookie.delete("token");
     // this.router.navigate(['login']);
     this.userService.setUser(null);
   }

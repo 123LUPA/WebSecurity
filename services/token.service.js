@@ -1,12 +1,15 @@
 import jwt from 'jsonwebtoken';
 import userController from '../controllers/user.controller';
 
+let client='http://localhost:4200';
+
 export function checkTokenValidity(req,res,next) {
     // check header or url parameters or post parameters for token
     var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
+
     // decode token
-    if (token) {
+    if (token && checkRefererAndOrigin) {
         // verifies secret and checks exp
         jwt.verify(token, ('superDuperSecretKey'), function (err, decoded) {
             if (err) {
@@ -33,6 +36,14 @@ export function checkTokenValidity(req,res,next) {
         res.sendStatus(403);
     }
 
+}
+
+ function checkRefererAndOrigin(req){
+
+     if(req.headers['referer'] == client+"/" && req.headers['origin'] == client){
+         return true;
+     }
+    return false;
 }
 
 export function generateToken(user) {
