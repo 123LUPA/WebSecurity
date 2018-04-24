@@ -21,7 +21,7 @@ class UserController extends BaseController{
     //signup user
     signUpUser(user){
         //add defalut role
-        user.role = 'user';
+        user.role = 'admin';
         //hash password
         user.password = this.hashPassword(user.password);
         user.email = this.encrypt(user.email);
@@ -111,10 +111,9 @@ class UserController extends BaseController{
         var decipher = crypto.createCipheriv('aes-256-cbc', key, iv);
         var decrypted = decipher.update(email,'hex','utf8');
         decrypted += decipher.final('utf8');
-        console.log(decrypted);
+        console.log(decrypted, '<--- before return')
         return decrypted;
     }
-
     generateRecoveryToken() {
         return new Promise((resolve, reject) => {
             crypto.randomBytes((16), (err, buf) => {
