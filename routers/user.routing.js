@@ -76,7 +76,7 @@ userRouter.get('/', [checkTokenValidity, role('admin')], function(req, res) {
     userController.getAll().then((users, err)=>{
         if(err)
             console.error(err);
-        res.json({users: users });
+        res.json({users: userController.decryptUsersEmail(users)});
     });
 });
 /**

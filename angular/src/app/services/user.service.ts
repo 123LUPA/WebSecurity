@@ -15,6 +15,7 @@ export class UserService {
     }else{
       this.user = user;
     }
+    console.log(this.user);
     this.userEmiter.emit(this.user);
   }
 
