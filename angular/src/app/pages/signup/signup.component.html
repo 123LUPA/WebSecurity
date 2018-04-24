@@ -28,14 +28,14 @@
                  name="password" required id="password" formControlName="password"
                  placeholder="Password">
           <div *ngIf="passwordController.errors && passwordController.touched">
-            <!--<mat-error *ngIf="passwordController.errors.required">Password is required</mat-error>-->
-            <!--<mat-error *ngIf="passwordController.errors.minlength">Password should be at least 6 characters.</mat-error>-->
-            <!--<mat-error *ngIf="passwordController.errors.pattern">-->
-              <!--Password should be min 6 characters:-->
-              <!--<br>Only letters and numbers-->
-              <!--<br>Min one upper and lower case-->
-              <!--<br>Min one digit-->
-            <!--</mat-error>-->
+            <mat-error *ngIf="passwordController.errors.required">Password is required</mat-error>
+            <mat-error *ngIf="passwordController.errors.minlength">Password should be at least 6 characters.</mat-error>
+            <mat-error *ngIf="passwordController.errors.pattern">
+              Password should be min 6 characters:
+              <br>Only letters and numbers
+              <br>Min one upper and lower case
+              <br>Min one digit
+            </mat-error>
           </div>
         </mat-form-field>
       </div>
