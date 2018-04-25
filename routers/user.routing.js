@@ -3,6 +3,8 @@ import userController from '../controllers/user.controller';
 import {validateCaptcha} from '../services/captcha.service';
 import randomString from 'randomstring';
 import fs from 'fs';
+import {checkTokenValidity} from "../services/token.service";
+import {role} from "../services/roles.service";
 
 //define router
 let userRouter = express.Router();
@@ -60,16 +62,21 @@ let userRouter = express.Router();
  *      - user
  *      summary: get all users
  *      description: get all users
+ *      parameters:
+ *      - in: header
+ *        name: X-Access-Token
+ *        schema:
+ *          type: string
  *      responses:
  *          201:
  *              description: ok
  *
  */
-userRouter.get('/', function(req, res) {
+userRouter.get('/', [checkTokenValidity, role('admin')], function(req, res) {
     userController.getAll().then((users, err)=>{
         if(err)
             console.error(err);
-        res.json({users: users });
+        res.json({users: userController.decryptUsersEmail(users)});
     });
 });
 /**

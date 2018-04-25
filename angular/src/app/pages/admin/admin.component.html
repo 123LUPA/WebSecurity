@@ -1,0 +1,21 @@
+<div class="admin-page">
+  <h1>Welcome to admin page</h1>
+  <mat-card *ngFor="let user of users">
+    <mat-card-title>company: {{user.companyName}}</mat-card-title>
+    <mat-card-subtitle>email : {{user.email}}</mat-card-subtitle>
+  <mat-card-subtitle>role : {{user.role}}</mat-card-subtitle>
+  </mat-card>
+</div>
+<!--{{users | json}}-->
+<!--<mat-card class="example-card" *ngFor="let task of shareTaskSevice.tasks">-->
+  <!--<div class="card-header">-->
+    <!--<div class="card-header&#45;&#45;title">{{task.title}}-->
+    <!--</div>-->
+    <!--<div>{{task.author}}</div>-->
+  <!--</div>-->
+  <!--<mat-card-content>-->
+    <!--<p>-->
+      <!--{{task.description}}-->
+    <!--</p>-->
+  <!--</mat-card-content>-->
+<!--</mat-card>-->

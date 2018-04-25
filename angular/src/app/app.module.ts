@@ -34,6 +34,8 @@ import {ShareTaskComponent} from "./pages/share-task/share-task.component";
 import {ShareTaskService} from "./services/shareTask.service";
 import {ImageUploadModule} from "angular2-image-upload";
 import {ProfileComponent} from "./pages/profile/profile.component";
+import {AdminComponent} from "./pages/admin/admin.component";
+import {UsersService} from "./services/users.service";
 
 export class CustomOption extends ToastOptions {
   showCloseButton = true;
@@ -53,7 +55,8 @@ export class CustomOption extends ToastOptions {
     HeaderComponent,
     CreateTaskComponent,
     ShareTaskComponent,
-    ProfileComponent
+    ProfileComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +79,7 @@ export class CustomOption extends ToastOptions {
 
   ],
   providers: [HomeService, LoginService, SignupService, ForgotService, NewPasswordService,
-    AuthGuard, UserService, TaskService,ShareTaskService,
+    AuthGuard, UserService, TaskService, ShareTaskService, UsersService,
     {provide: ToastOptions, useClass: CustomOption}],
   bootstrap: [AppComponent]
 })

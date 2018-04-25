@@ -50,7 +50,8 @@
       <mat-error *ngIf="imgError">{{imgError}}</mat-error>
       <div class="form-group">
         <re-captcha (resolved)="resolved($event)" siteKey="6LeAUkYUAAAAAGEZOgG1nP60bCUxw70M-EFn7VQr"></re-captcha>
-        <button mat-raised-button color="primary" type="submit" [disabled]="!signupForm.valid">Sign Up!</button>
+        <!--[disabled]="!signupForm.valid"-->
+        <button mat-raised-button color="primary" type="submit" >Sign Up!</button>
       </div>
     </form>
   </mat-card>
