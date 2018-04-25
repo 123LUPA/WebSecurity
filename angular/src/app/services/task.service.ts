@@ -29,6 +29,11 @@ export class TaskService{
       } );
     }
   }
+  getById(id){
+    this.headers = this.headers.set('X-Access-Token', this.token);
+    return this.http.get(this.url + '/' + id, {headers: this.headers});
+
+  }
   createEvent(task: Task){
     this.headers = this.headers.set('X-Access-Token', this.token);
    return this.http.post(this.url, task, {headers: this.headers});
@@ -49,7 +54,11 @@ export class TaskService{
     this.task=t;
 
   }
+  updateTask(task){
+    this.headers = this.headers.set('X-Access-Token', this.token);
+    return this.http.put(this.url + '/' + task._id, task,{headers: this.headers});
 
+  }
   getTask():String{
     return this.task;
   }

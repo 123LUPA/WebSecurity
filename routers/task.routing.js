@@ -149,6 +149,36 @@ taskRouter.delete('/:taskId', checkTokenValidity, function (req, res) {
 
 /**
  * @swagger
+ * /tasks/{taskId}:
+ *  get:
+ *      tags:
+ *      - task
+ *      summary: get specific task
+ *      description: get specific task based on id
+ *      parameters:
+ *      - in: path
+ *        name: taskId
+ *        schema:
+ *          type: string
+ *      - in: header
+ *        name: X-Access-Token
+ *        schema:
+ *          type: string
+ *      responses:
+ *          200:
+ *              description: ok
+ */
+taskRouter.get('/:id', checkTokenValidity,function (req, res) {
+    console.log('you are gonan update this ', req.params.id);
+    taskController.findOne(req.params.id).then((task, err) => {
+        if(err)
+            res.status(400).send(err);
+        res.send(task);
+    })
+});
+
+/**
+ * @swagger
  * /tasks/{id}:
  *  put:
  *      tags:
@@ -168,7 +198,7 @@ taskRouter.delete('/:taskId', checkTokenValidity, function (req, res) {
  *          200:
  *              description: ok
  */
-taskRouter.put('/:id', function (req, res) {
+taskRouter.put('/:id', checkTokenValidity, function (req, res) {
     taskController.updateOne(req.params.id, req.body).then((updated, err)=>{
         if(err)
             res.status(400).send(err);

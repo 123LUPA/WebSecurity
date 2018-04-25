@@ -48,6 +48,9 @@ export class HomeComponent{
       console.log("no token provided")
     }
   }
+  updateTask(task){
+    console.log('you are going to update task ', task);
+  }
 
   shareTask(task){
     this.taskService.setTask(task._id);

@@ -36,6 +36,7 @@ import {ImageUploadModule} from "angular2-image-upload";
 import {ProfileComponent} from "./pages/profile/profile.component";
 import {AdminComponent} from "./pages/admin/admin.component";
 import {UsersService} from "./services/users.service";
+import {UpdateComponent} from "./pages/update/update.component";
 
 export class CustomOption extends ToastOptions {
   showCloseButton = true;
@@ -56,7 +57,8 @@ export class CustomOption extends ToastOptions {
     CreateTaskComponent,
     ShareTaskComponent,
     ProfileComponent,
-    AdminComponent
+    AdminComponent,
+    UpdateComponent
   ],
   imports: [
     BrowserModule,

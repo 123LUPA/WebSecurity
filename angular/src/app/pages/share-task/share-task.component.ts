@@ -17,7 +17,10 @@ export class ShareTaskComponent{
   private shareTaskForm:FormGroup;
   private board:Board;
 
-  constructor(private route: ActivatedRoute,public taskService:TaskService,public shareTaskService:ShareTaskService,public toastr: ToastsManager, vcr: ViewContainerRef){
+  constructor(private route: ActivatedRoute,
+              public taskService:TaskService,
+              public shareTaskService:ShareTaskService,
+              public toastr: ToastsManager, vcr: ViewContainerRef){
     this.toastr.setRootViewContainerRef(vcr);
 
     this.shareTaskForm = new FormGroup({

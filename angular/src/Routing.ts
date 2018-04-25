@@ -9,6 +9,7 @@ import {CreateTaskComponent} from "./app/pages/create-task/create-task.component
 import {ShareTaskComponent} from "./app/pages/share-task/share-task.component";
 import {ProfileComponent} from "./app/pages/profile/profile.component";
 import {AdminComponent} from "./app/pages/admin/admin.component";
+import {UpdateComponent} from "./app/pages/update/update.component";
 
 const appRoutes: Routes = [
 
@@ -20,7 +21,8 @@ const appRoutes: Routes = [
   { path: 'reset/:token',component: NewComponent },
   {path: 'create-task', canActivate:[AuthGuard],component: CreateTaskComponent},
   {path: 'share-task/:id', canActivate:[AuthGuard],component: ShareTaskComponent},
-  {path: 'admin', canActivate: [AuthGuard], component: AdminComponent}
+  {path: 'admin', canActivate: [AuthGuard], component: AdminComponent},
+  {path: 'update/:id', canActivate: [AuthGuard], component: UpdateComponent}
 
 
   // { path: '',  redirectTo: '/login', pathMatch: 'full'},
