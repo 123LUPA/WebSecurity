@@ -35,7 +35,6 @@ export class LoginComponent {
     if (this.loginForm.controls.email.value && this.loginForm.controls.password.value) {
       this.message = this.LoginService.logUserIn(this.loginForm.controls.email.value,
         this.loginForm.controls.password.value).then(value => {
-          console.log(value);
           if(value=='Enjoy your token!'){
             this.warningShow=true;
           }

@@ -31,12 +31,10 @@ export class SignupComponent implements OnInit {
     this.buildForm();
   }
   public onUploadFinished(event) {
-    console.log('img updated', event);
     this.img = event;
     this.imgError = false;
     this.SignUpS.saveImage(this.img).subscribe(res => {
       this.img_url = res['imgUrl'];
-      console.log('This is image url after image was uploaded and saved: ', this.img_url );
     }, err => {
       this.imgError = 'Image is too big please upload img smaller than 1mb';
       console.log(err);
@@ -87,7 +85,6 @@ export class SignupComponent implements OnInit {
   }
   resolved(captchaResponse: string) {
     this.captcha = captchaResponse;
-    console.log("Captcha"+this.captcha);
   }
   ngOnInit() {
   }

@@ -21,7 +21,7 @@ class UserController extends BaseController{
     //signup user
     signUpUser(user){
         //add defalut role
-        user.role = 'admin';
+        user.role = 'user';
         //hash password
         user.password = this.hashPassword(user.password);
         user.email = this.encrypt(user.email);

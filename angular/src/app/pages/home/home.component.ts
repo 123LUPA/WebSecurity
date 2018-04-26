@@ -32,24 +32,20 @@ export class HomeComponent{
   }
   deleteTask(taskId){
     this.taskService.deleteTask(taskId).subscribe((res)=>{
-      console.log(res);
       this.taskService.getTasks();
       this.shareTaskSevice.getFriendsTasks();
     },err=>{
 
     });
-    console.log(taskId);
   }
   reloadHomePage(token){
     if(token){
       let result = this.homeService.reloadHomePage(token);
     }
     else{
-      console.log("no token provided")
     }
   }
   updateTask(task){
-    console.log('you are going to update task ', task);
   }
 
   shareTask(task){

@@ -15,7 +15,6 @@ export class AdminComponent{
   getAllUsers(){
     this.usersService.getUsers().subscribe((users)=>{
        this.users = users['users'];
-       console.log(this.users);
 
     }, err =>{
       console.log(err);

@@ -21,12 +21,10 @@ export class SignupService {
         data => {
 
           this.router.navigate(['login']);
-          console.log(data);
         },
         // Errors will call this callback instead:
         err => {
           this.push.error('Something went wrong');
-          console.log('Something went wrong!', err);
         }
       );}
     saveImage(img) {

@@ -43,7 +43,6 @@ export class ShareTaskService{
   getFriendsTasks(): void {
     let token = Cookie.get("token");
     if(token){
-      console.log(token);
       this.getTasksForUser(token).subscribe((res: Task[])=>{
         this.tasks = res['tasks'];
       },error =>{
@@ -52,7 +51,6 @@ export class ShareTaskService{
     }
   }
   getTasksForUser(token){
-    console.log("this one"+token);
     let url = this.testUrl + 'requests';
     this.headers = this.headers.set('X-Access-Token', token);
     return this.http.get(url, {headers: this.headers});
