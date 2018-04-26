@@ -11,6 +11,9 @@ class TaskController  extends BaseController{
         console.log(this.taskModel.find({postedBy: userId}));
         return this.taskModel.find({postedBy: userId});
     }
+   findOne(id){
+        return this.model.findById(id);
+   }
 
 
     deleteOne(id, userId){

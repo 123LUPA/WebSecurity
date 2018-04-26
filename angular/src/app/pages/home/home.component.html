@@ -19,11 +19,14 @@
     </div>
     <mat-card class="example-card" *ngFor="let task of taskService.tasks">
       <div class="card-header">
-        <div class="card-header--title">{{task.title}}
-          <i class="material-icons" (click)="deleteTask(task._id)">
-            delete
+        <div class="card-header--title">
+          {{task.title}}
+          <div class="icons">
+            <i class="material-icons" routerLink="update/{{task._id}}">mode_edit</i>
+            <i class="material-icons" (click)="deleteTask(task._id)">
+              delete</i>
             <i class="material-icons" (click)="shareTask(task)">share</i>
-          </i>
+          </div>
         </div>
         <div>{{task.author}}</div>
       </div>
