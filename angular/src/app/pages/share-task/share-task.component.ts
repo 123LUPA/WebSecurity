@@ -14,7 +14,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 export class ShareTaskComponent{
 
-  private shareTaskForm:FormGroup;
+  shareTaskForm:FormGroup;
   private board:Board;
 
   constructor(private route: ActivatedRoute,

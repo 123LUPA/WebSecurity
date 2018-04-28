@@ -14,7 +14,7 @@ export class LoginComponent {
 
   LoginService;
   message;
-  private warningShow:boolean;
+  warningShow:boolean;
 
 
 

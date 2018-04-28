@@ -1,5 +1,5 @@
 let config = {
-  nodeApi: 'http://localhost:3000/'
+  nodeApi: 'https://frontend.sevenamstudio.com/'
 /*  compress: true,
   disableHostCheck: true*/
 };
