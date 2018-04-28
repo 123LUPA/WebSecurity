@@ -148,8 +148,6 @@ class UserController extends BaseController{
 
         var email = this.decrypt(user.email);
 
-
-
         const mailOptions = {
             from: 'superSecureApp@gmail.com', // sender address
             to: email, // list of receivers
@@ -167,13 +165,7 @@ class UserController extends BaseController{
 
 
     sendEmailPasswordChanged(email){
-        var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'keauni695@gmail.com',
-                pass: 'yE38F*$TS$A6qu'
-            }
-        });
+
 
         const mailOptions = {
             from: 'superSecureApp@gmail.com', // sender address
