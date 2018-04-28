@@ -161,7 +161,8 @@ userRouter.post('/signupDev', (req, res)=> {
 
 userRouter.post('/login', (req, res)=>{
     userController.loginUser(req.body).then((data)=>{
-        res.json({
+        res.cookie("thisisTestCookie", "values", { secure:false, maxAge:120000, httpOnly: true })
+            .json({
             success: true,
             message: 'Enjoy your token!',
             token: data.token,
