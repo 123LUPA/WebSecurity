@@ -7,8 +7,8 @@ export function sender(){
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'palkovicova.lucia@gmail.com',
-            pass: 'Klucinka007'
+            user: 'keauni695@gmail.com',
+            pass: 'yE38F*$TS$A6qu'
         }
 
     });
