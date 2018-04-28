@@ -30,7 +30,7 @@ class UserModel{
                 type:String,
                 validate: /[0-9a-zA-Z]$/,
                 minLength:6,
-                maxLength: 20,
+                maxLength: 50,
                 required: true
             },
             token:{
@@ -64,7 +64,6 @@ class UserModel{
             },
             role: {
                 type: String,
-                required: true
 
             }
 
