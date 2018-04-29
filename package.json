@@ -7,8 +7,6 @@
     "dev": "nodemon --exec babel-node app.js",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
     "start2": "npm run build && nodemon dist/app.js"
-
-
   },
   "dependencies": {
     "aes256": "^1.0.3",
@@ -42,6 +40,7 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "randomstring": "^1.1.5",
+    "htmlencode": "0.0.4",
     "request": "^2.83.0",
     "serve-favicon": "~2.3.0",
     "should": "^13.2.1",

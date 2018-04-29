@@ -1,8 +1,10 @@
 import express from 'express';
 import taskController from "../controllers/task.controller";
 import {checkTokenValidity} from '../services/token.service';
+import htmlencode from 'htmlencode';
 //define router
 let taskRouter = express.Router();
+let widget = new htmlencode.Encoder('string');
 
 /**
  * @swagger
@@ -72,9 +74,18 @@ taskRouter.post('/', checkTokenValidity, (req, res)=> {
  */
 taskRouter.get('/', function(req, res) {
     taskController.getAll().then((tasks, err)=>{
+        var encodedTasks = [];
         if(err)
             res.status(400).send(err);
-        res.json({tasks: tasks});
+        tasks.forEach(function (task) {
+            let encodedTask = {
+                title: widget.htmlEncode(task.title),
+                description: widget.htmlEncode(task.description),
+                author: widget.htmlEncode(task.author)
+            };
+            encodedTasks.push(encodedTask);
+        });
+        res.json({tasks: encodedTasks});
     }).catch((e)=>{
         res.status(400).send(e.errmsg);
     });
@@ -102,9 +113,18 @@ taskRouter.get('/', function(req, res) {
 taskRouter.get('/user', checkTokenValidity, function(req, res) {
 
     taskController.getuserstasks(req.user._id).then((tasks, err)=>{
+        var encodedTasks = [];
         if(err)
             res.status(400).send(err);
-        res.json({tasks: tasks});
+        tasks.forEach(function (task) {
+            let encodedTask = {
+                title: widget.htmlEncode(task.title),
+                description: widget.htmlEncode(task.description),
+                author: widget.htmlEncode(task.author)
+            };
+            encodedTasks.push(encodedTask);
+        });
+        res.json({tasks: encodedTasks});
     }).catch((e)=>{
         res.status(400).send(e.errmsg);
     });

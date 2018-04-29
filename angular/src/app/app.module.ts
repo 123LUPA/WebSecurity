@@ -37,6 +37,7 @@ import {ProfileComponent} from "./pages/profile/profile.component";
 import {AdminComponent} from "./pages/admin/admin.component";
 import {UsersService} from "./services/users.service";
 import {UpdateComponent} from "./pages/update/update.component";
+import { SafePipe } from './safe.pipe';
 
 export class CustomOption extends ToastOptions {
   showCloseButton = true;
@@ -58,6 +59,7 @@ export class CustomOption extends ToastOptions {
     ShareTaskComponent,
     ProfileComponent,
     AdminComponent,
+    SafePipe,
     UpdateComponent
   ],
   imports: [

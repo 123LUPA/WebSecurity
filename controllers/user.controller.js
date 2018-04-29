@@ -10,6 +10,10 @@ import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import {sender} from "../services/mailer.service";
 
+const EMAIL_PATTERN = /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/;
+const PASS_PATTERN = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/;
+const COMPANY_PATTERN = /^[a-zA-Z0-9]{2,}$/;
+
 class UserController extends BaseController{
 
 
@@ -23,14 +27,24 @@ class UserController extends BaseController{
     signUpUser(user){
         //add defalut role
         user.role = 'user';
-        //hash password
-        user.password = this.hashPassword(user.password);
-        user.email = this.encrypt(user.email);
-        console.log(user.email);
-        //create new model
-        let userObj = new this.userModel(user);
-        //save new model
-        return userObj.save();
+        return new Promise((resolve, reject)=>{
+            //check for regex
+            if (EMAIL_PATTERN.test(user.email)&&PASS_PATTERN.test(user.password)
+                &&COMPANY_PATTERN.test(user.companyName)) {
+                console.log("Valid user");
+                //hash password
+                user.password = this.hashPassword(user.password);
+                user.email = this.encrypt(user.email);
+                console.log(user.email);
+                //create new model
+                let userObj = new this.userModel(user);
+                //save new model
+                return resolve(userObj.save());
+            } else {
+                return reject(true);
+            }
+        })
+
     }
     //login user
     loginUser(data){
