@@ -218,11 +218,11 @@ userRouter.get('/reset/:token', function(req, res) {
 
         if (!user) {
             //If user does not exist navigate to forgot password form
-            return res.redirect('http://localhost:4200/#/forgot');
+            return res.redirect('https://angular.sevenamstudio.com/#/forgot');
     }
 
         //else navigate to rest form where user can type new password
-        return res.redirect('http://' + 'localhost:4200/#' + '/reset/'+ req.params.token);
+        return res.redirect('http://' + 'angular.sevenamstudio.com/#' + '/reset/'+ req.params.token);
     });
 
 });
