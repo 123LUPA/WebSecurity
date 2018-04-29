@@ -51,7 +51,6 @@ export class HomeComponent{
   shareTask(task){
     this.taskService.setTask(task._id);
     this.router.navigate(['/share-task/'+task._id]);
-
   }
 
 
