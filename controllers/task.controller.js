@@ -15,7 +15,6 @@ class TaskController  extends BaseController{
         return this.model.findById(id);
    }
 
-
     deleteOne(id, userId){
         //create promise
         return new Promise((resolve, reject) => {

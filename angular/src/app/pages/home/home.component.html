@@ -21,12 +21,6 @@
       <div class="card-header">
         <div class="card-header--title" [innerHtml] = "task.title | safePipe">
           {{task.title}}
-          <div class="icons">
-            <i class="material-icons" routerLink="update/{{task._id}}">mode_edit</i>
-            <i class="material-icons" (click)="deleteTask(task._id)">
-              delete</i>
-            <i class="material-icons" (click)="shareTask(task)">share</i>
-          </div>
         </div>
         <div [innerHtml] = "task.author | safePipe">{{task.author}}</div>
       </div>
@@ -35,6 +29,11 @@
           {{task.description}}
         </p>
       </mat-card-content>
+      <div class="icons">
+        <i class="material-icons" routerLink="update/{{task._id}}">mode_edit</i>
+        <i class="material-icons" (click)="deleteTask(task._id)">delete</i>
+        <i class="material-icons" (click)="shareTask(task)">share</i>
+      </div>
     </mat-card>
     <div class="task-holder" *ngIf="shareTaskSevice.tasks && shareTaskSevice.tasks.length >= 1">
       <h3>Friends tasks:</h3>

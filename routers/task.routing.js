@@ -79,6 +79,7 @@ taskRouter.get('/', function(req, res) {
             res.status(400).send(err);
         tasks.forEach(function (task) {
             let encodedTask = {
+                _id: task._id,
                 title: widget.htmlEncode(task.title),
                 description: widget.htmlEncode(task.description),
                 author: widget.htmlEncode(task.author)
@@ -118,6 +119,7 @@ taskRouter.get('/user', checkTokenValidity, function(req, res) {
             res.status(400).send(err);
         tasks.forEach(function (task) {
             let encodedTask = {
+                _id: task._id,
                 title: widget.htmlEncode(task.title),
                 description: widget.htmlEncode(task.description),
                 author: widget.htmlEncode(task.author)
