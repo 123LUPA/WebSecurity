@@ -1,8 +1,10 @@
 import express from 'express';
 import taskController from "../controllers/task.controller";
 import {checkTokenValidity} from '../services/token.service';
+import htmlencode from 'htmlencode';
 //define router
 let taskRouter = express.Router();
+let widget = new htmlencode.Encoder('string');
 
 /**
  * @swagger
@@ -77,9 +79,9 @@ taskRouter.get('/', function(req, res) {
             res.status(400).send(err);
         tasks.forEach(function (task) {
             let encodedTask = {
-                title: task.title,
-                description: task.description,
-                author: task.author
+                title: widget.htmlEncode(task.title),
+                description: widget.htmlEncode(task.description),
+                author: widget.htmlEncode(task.author)
             };
             encodedTasks.push(encodedTask);
         });
@@ -116,9 +118,9 @@ taskRouter.get('/user', checkTokenValidity, function(req, res) {
             res.status(400).send(err);
         tasks.forEach(function (task) {
             let encodedTask = {
-                title: task.title,
-                description: task.description,
-                author: task.author
+                title: widget.htmlEncode(task.title),
+                description: widget.htmlEncode(task.description),
+                author: widget.htmlEncode(task.author)
             };
             encodedTasks.push(encodedTask);
         });
