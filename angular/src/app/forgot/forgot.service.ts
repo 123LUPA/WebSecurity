@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import Config from "../../../app-config";
+
 
 @Injectable()
 export class ForgotService {
 
-  private testUrl = 'http://localhost:3000/';
+  private testUrl = Config.nodeApi;
   private error:boolean = false;
 
   constructor( private http: HttpClient, private push: ToastsManager, private router:Router) {}
