@@ -12,7 +12,7 @@ export class NewPasswordService {
 
   changePassword(newPassword,token){
     this.http
-      .post(this.testUrl +'reset/'+ token, {password: newPassword}, )
+      .post(this.testUrl +'users/reset/'+ token, {password: newPassword}, )
       .subscribe(
         // Successful responses call the first callback.
         data => {
