@@ -198,15 +198,13 @@ userRouter.post('/login', (req, res)=>{
 
 //Rout that checks if the user exists & send email with password reset
 userRouter.post('/forgot', (req, res)=>{
-
-    console.log("here");
     userController.forgotPassword(req).then((data)=>{
-
-
         res.send(data);
-
+    }, err => {
+        res.status(500).send(err);
     }).catch(err=>{
-        res.sendStatus(500);
+        console.log(err);
+        res.status(500).send(err);
     })
 });
 
