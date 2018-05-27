@@ -18,15 +18,20 @@ export class HomeComponent{
   homeService;
 
 
+
   constructor(public userService: UserService, public hoS:HomeService,public shareTaskSevice: ShareTaskService, public taskService: TaskService,public router:Router) {
 
     this.homeService = hoS;
     this.reloadHomePage( Cookie.get('token'));
 
-    userService.userEmiter.subscribe({next: ()=>{
-      this.taskService.getTasks();
-      this.shareTaskSevice.getFriendsTasks();
-
+    userService.userEmiter.subscribe({next: (user)=>{
+      console.log('emit emit emit');
+        if(user){
+          console.log(user);
+          //going to get users tasks
+          this.taskService.getTasks();
+          this.shareTaskSevice.getFriendsTasks();
+        }
 
     }});
   }
@@ -41,6 +46,8 @@ export class HomeComponent{
   reloadHomePage(token){
     if(token){
       let result = this.homeService.reloadHomePage(token);
+      this.taskService.getTasks();
+      this.shareTaskSevice.getFriendsTasks();
     }
     else{
     }

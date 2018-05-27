@@ -6,12 +6,14 @@
   </div>
   <button mat-button class="mat-raised-button  mat-primary"
           routerLink="admin" *ngIf="userService.user && userService.user.role === 'admin'">Admin panel</button>
-
+ <!--<p>we are here {{userService.user}} &#45;&#45; user {{taskService.tasks}} &#45;&#45; task</p>-->
   <!--if user logged and no tasks-->
-  <div class="home--quest" *ngIf="userService.user && taskService.tasks && taskService.tasks.length === 0 &&shareTaskSevice.tasks && shareTaskSevice.tasks.length === 0">
+
+  <div class="home--quest" *ngIf="userService.user && taskService.tasks && taskService.tasks.length === 0 && shareTaskSevice.tasks && shareTaskSevice.tasks.length === 0">
     <h3>Seems like you don't have any tasks!</h3>
     <p>Don't be shy and <span class="action" routerLink="create-task">create one</span>!</p>
   </div>
+
   <div class="task-holder" *ngIf="taskService.tasks && taskService.tasks.length >= 1 && userService.user || shareTaskSevice.tasks && shareTaskSevice.tasks.length >= 1&& userService.user ">
     <div class="task-holder--header">
       <h3>Dashboard:</h3>

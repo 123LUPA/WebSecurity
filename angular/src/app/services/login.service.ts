@@ -17,6 +17,7 @@ export class LoginService {
   }
 
   logUserIn (email, pass) {
+    //log in user in
     return new Promise((resolve, reject) =>{
       this.http
         .post(this.testUrl +'users/login', {email: email, password: pass}, )
@@ -30,6 +31,7 @@ export class LoginService {
               let user = data['user'];
               Cookie.set('token', token );
               this.router.navigate(['']);
+              //seting us
               this.userService.setUser(data['user']);
               resolve(data['message']);
             }

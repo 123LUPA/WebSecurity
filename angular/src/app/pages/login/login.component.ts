@@ -16,23 +16,31 @@ export class LoginComponent {
   message;
   warningShow:boolean;
 
-
-
-  constructor( lg : LoginService, public toastr: ToastsManager, vcr: ViewContainerRef) {
-    this.LoginService = lg;
-    this.toastr.setRootViewContainerRef(vcr);
-    this.warningShow = true;
-  }
-
   loginForm = new FormGroup ({
     email: new FormControl(),
     password: new FormControl()
   });
 
+  constructor( lg : LoginService, public toastr: ToastsManager, vcr: ViewContainerRef) {
+    this.LoginService = lg;
+    this.toastr.setRootViewContainerRef(vcr);
+    this.warningShow = true;
+    // this.setTestValues();
+  }
+
+
+  setTestValues(){
+    this.loginForm.controls.email.setValue('krys@krys.com');
+    this.loginForm.controls.password.setValue('*********');
+
+
+  }
 
   login () {
-    this.warningShow=true;
+    this.warningShow = true;
+    //check if email and passord have value
     if (this.loginForm.controls.email.value && this.loginForm.controls.password.value) {
+      //then log in user
       this.message = this.LoginService.logUserIn(this.loginForm.controls.email.value,
         this.loginForm.controls.password.value).then(value => {
           if(value=='Enjoy your token!'){

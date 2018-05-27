@@ -1,3 +1,11 @@
-<h1>This is your profile info</h1>
-{{userService.user | json}}
-<img [src]="profileImg" alt="userProfile">
+<h1>Profile:</h1>
+<div class="user-profile">
+  <img [src]="profileImg" alt="userProfile">
+
+  <div>
+    <span class="bold">Company name:</span> <span> {{ userService.user.companyName}}</span>
+  </div>
+  <div>
+    <span class="bold">Email:</span> <span> {{ userService.user.email}}</span>
+  </div>
+</div>

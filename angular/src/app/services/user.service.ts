@@ -10,12 +10,20 @@ export class UserService {
   constructor( private http: HttpClient) {
   }
   public setUser(user){
+
     if(user){
-      this.user = new User(user.companyName, user.email, user.password, user.image, user.role);
+      if(!this.user){
+        this.user = new User(user.companyName, user.email, user.password, user.image, user.role);
+        this.userEmiter.emit(this.user);
+      }
+
     }else{
+      console.log('emit user 2 ');
       this.user = user;
+      this.userEmiter.emit(this.user);
+
     }
-    this.userEmiter.emit(this.user);
+    //setting user
   }
 
 
