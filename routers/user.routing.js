@@ -161,12 +161,17 @@ userRouter.post('/signupDev', (req, res)=> {
 
 userRouter.post('/login', (req, res)=>{
     userController.loginUser(req.body).then((data)=>{
-        res.cookie("thisisTestCookie", "values", { secure:false, maxAge:120000, httpOnly: true })
-            .json({
+        res.cookie("thisisTestCookie", "values", { secure:false, maxAge:120000, httpOnly: true }).json({
             success: true,
             message: 'Enjoy your token!',
             token: data.token,
-            user: data.user
+            user: {
+                companyName:data.user.companyName,
+                email: userController.decrypt(data.user.email),
+                userName:data.user.userName,
+                password:data.user.password,
+                role: data.user.role
+            }
         });
 
     }, (err)=>{
