@@ -11,19 +11,23 @@ export class TaskService{
   private headers = new HttpHeaders();
   public tasks: Task[];
   private task:String;
-  private token = Cookie.get("token");
+  private token: any;
 
   constructor( private http: HttpClient) {
+    this.token = Cookie.get("token");
+    this.tasks = [];
     this.headers = this.headers.set('Content-Type', 'application/json; charset=utf-8');
     this.getTasks();
 
   }
   getTasks(): void {
+    let token = Cookie.get("token");
+    console.log(' inside TASK TASK TASK ', token);
 
-    let token = this.token;
     if(token){
       this.getTasksForUser(token).subscribe((res: Task[])=>{
         this.tasks = res['tasks'];
+        console.log('users tasks ', this.tasks, token);
       },error =>{
 
       } );
@@ -38,9 +42,9 @@ export class TaskService{
     this.headers = this.headers.set('X-Access-Token', this.token);
    return this.http.post(this.url, task, {headers: this.headers});
   }
-  getTasksForUser(token){
+  getTasksForUser(token: string){
     let url = this.url + '/user';
-    this.headers = this.headers.set('X-Access-Token', this.token);
+    this.headers = this.headers.set('X-Access-Token', token);
     return this.http.get(url, {headers: this.headers});
   }
   deleteTask(taskId){

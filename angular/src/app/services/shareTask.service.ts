@@ -42,8 +42,10 @@ export class ShareTaskService{
 
   getFriendsTasks(): void {
     let token = Cookie.get("token");
+    this.tasks = [];
     if(token){
       this.getTasksForUser(token).subscribe((res: Task[])=>{
+        console.log('getting share taks', res['tasks']);
         this.tasks = res['tasks'];
       },error =>{
 

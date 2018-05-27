@@ -23,10 +23,14 @@ export class HomeComponent{
     this.homeService = hoS;
     this.reloadHomePage( Cookie.get('token'));
 
-    userService.userEmiter.subscribe({next: ()=>{
-      this.taskService.getTasks();
-      this.shareTaskSevice.getFriendsTasks();
-
+    userService.userEmiter.subscribe({next: (user)=>{
+      console.log('users is login home page ', user);
+        if(user){
+          //going to get users tasks
+          console.log('we are going to get users taks');
+          this.taskService.getTasks();
+          this.shareTaskSevice.getFriendsTasks();
+        }
 
     }});
   }
