@@ -27,7 +27,6 @@ export class HomeComponent{
       console.log('users is login home page ', user);
         if(user){
           //going to get users tasks
-          console.log('we are going to get users taks');
           this.taskService.getTasks();
           this.shareTaskSevice.getFriendsTasks();
         }
