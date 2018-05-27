@@ -161,6 +161,10 @@ userRouter.post('/signupDev', (req, res)=> {
 
 userRouter.post('/login', (req, res)=>{
     userController.loginUser(req.body).then((data)=>{
+        let email = userController.decrypt(data.user.email);
+        console.log(email, 'email');
+        data.user.email = email;
+        console.log(data.user);
         res.cookie("thisisTestCookie", "values", { secure:false, maxAge:120000, httpOnly: true })
             .json({
             success: true,

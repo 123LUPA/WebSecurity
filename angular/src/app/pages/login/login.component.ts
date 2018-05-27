@@ -25,13 +25,13 @@ export class LoginComponent {
     this.LoginService = lg;
     this.toastr.setRootViewContainerRef(vcr);
     this.warningShow = true;
-    this.setTestValues();
+    // this.setTestValues();
   }
 
 
   setTestValues(){
     this.loginForm.controls.email.setValue('krys@krys.com');
-    this.loginForm.controls.password.setValue('Master1');
+    this.loginForm.controls.password.setValue('*********');
 
 
   }
