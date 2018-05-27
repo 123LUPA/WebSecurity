@@ -27,7 +27,6 @@ export class LoginService {
             resolve(message);
             if(data['success']) {
               let token = data['token'];
-              let user = data['user'];
               Cookie.set('token', token );
               this.router.navigate(['']);
               this.userService.setUser(data['user']);

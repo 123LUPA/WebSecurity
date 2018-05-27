@@ -15,5 +15,4 @@ export class User{
   password: String;
   image: String;
   role: String;
-
 }

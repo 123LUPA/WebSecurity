@@ -50,12 +50,8 @@ class UserController extends BaseController{
     loginUser(data){
         return new Promise((resolve, reject)=>{
             //get user based on email
-
-            console.log(this.encrypt(data.email));
-
-            this.userModel.findOne({
-                email: this.encrypt(data.email)
-            }, (err, user)=>{
+            this.userModel.findOne({email: this.encrypt(data.email)},
+                (err, user)=>{
                 if(err) reject(err);
                 //if there is no user return false
                 if(!user)
@@ -67,7 +63,13 @@ class UserController extends BaseController{
                         let token = generateToken(user);
                         let responseToReturn = {
                             token : token,
-                            user: user
+                            user: {
+                                email: decrypt(user.email),
+                                companyName: user.companyName,
+                                password: user.password,
+                                role: user.role,
+                                image: user.image
+                            }
                         };
                         return resolve(responseToReturn);
                     }else{
