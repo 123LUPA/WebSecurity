@@ -46,6 +46,8 @@ export class HomeComponent{
   reloadHomePage(token){
     if(token){
       let result = this.homeService.reloadHomePage(token);
+      this.taskService.getTasks();
+      this.shareTaskSevice.getFriendsTasks();
     }
     else{
     }
