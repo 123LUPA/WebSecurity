@@ -52,12 +52,10 @@ taskRouter.post('/', checkTokenValidity, (req, res)=> {
 
     req.body['postedBy'] = req.user._id;
 
-    let token = generateToken(req.user);
-
     taskController.create(req.body).then((created, err)=>{
         if(err)
             res.status(400).send(err);
-        res.json({message: 'created',token:token,});
+        res.send(created);
 
     }).catch((e)=>{
         res.status(400).send(e);
