@@ -29,13 +29,6 @@ export class LoginComponent {
   }
 
 
-  setTestValues(){
-    this.loginForm.controls.email.setValue('krys@krys.com');
-    this.loginForm.controls.password.setValue('*********');
-
-
-  }
-
   login () {
     this.warningShow = true;
     //check if email and passord have value

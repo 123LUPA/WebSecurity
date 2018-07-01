@@ -43,6 +43,8 @@ export class CreateTaskComponent{
     this.task = new Task(this.titleControl.value, this.descriptionControl.value,
       this.authorControl.value);
     this.taskService.createEvent(this.task).subscribe((res)=>{
+      console.log("I AM SO CURIOS" + res['token']);
+      localStorage.setItem('token',res['token']);
       this.processing.isCompleted = true;
       this.processing.isProcessing = false;
     }, error => {
