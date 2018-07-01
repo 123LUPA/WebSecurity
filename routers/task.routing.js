@@ -1,6 +1,8 @@
 import express from 'express';
 import taskController from "../controllers/task.controller";
 import {checkTokenValidity} from '../services/token.service';
+import {generateToken} from '../services/token.service';
+
 import htmlencode from 'htmlencode';
 //define router
 let taskRouter = express.Router();
@@ -50,10 +52,13 @@ taskRouter.post('/', checkTokenValidity, (req, res)=> {
 
     req.body['postedBy'] = req.user._id;
 
+    let token = generateToken(req.user);
+
     taskController.create(req.body).then((created, err)=>{
         if(err)
             res.status(400).send(err);
-        res.send(created);
+        res.json({message: 'created',token:token,});
+
     }).catch((e)=>{
         res.status(400).send(e);
     });

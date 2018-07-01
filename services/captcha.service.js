@@ -21,3 +21,4 @@ export function validateCaptcha(req, res, next) {
         });
     }
 }
+

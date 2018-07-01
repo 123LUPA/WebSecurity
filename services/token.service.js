@@ -2,6 +2,8 @@ import jwt from 'jsonwebtoken';
 import userController from '../controllers/user.controller';
 
 let client='http://localhost:4200';
+import * as fs from "fs";
+const PRIVATE_KEY = fs.readFileSync('./private.key');
 
 export function checkTokenValidity(req,res,next) {
     // check header or url parameters or post parameters for token
@@ -9,9 +11,12 @@ export function checkTokenValidity(req,res,next) {
 
 
     // decode token
-    if (token && checkRefererAndOrigin) {
+    if (token) {
+
         // verifies secret and checks exp
-        jwt.verify(token, ('superDuperSecretKey'), function (err, decoded) {
+        jwt.verify(token, (PRIVATE_KEY), function (err, decoded) {
+
+            console.log("DECODED" + decoded.exp);
             if (err) {
                 return res.status(400).send("Failed to authenticate token.");
 
@@ -26,6 +31,7 @@ export function checkTokenValidity(req,res,next) {
                     return res.status(404).send("User not found");
                 }
                 req.user = user;
+
                 next();
             },(err)=>{
                  res.send(err);
@@ -48,9 +54,7 @@ export function checkTokenValidity(req,res,next) {
 
 export function generateToken(user) {
     const payload = {
-        //todo add roles
-        email: user.email
+        email: user.email,
     };
-    //time can be easly change
-    return jwt.sign(payload, 'superDuperSecretKey',  { expiresIn: Date.now()+5000 });
+    return jwt.sign(payload,PRIVATE_KEY, { expiresIn: Date.now()+5000 });
 }

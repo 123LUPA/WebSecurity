@@ -82,7 +82,6 @@ class UserController extends BaseController{
                     return reject({lock : user.lockUntil.toLocaleString()});
                 }
 
-
             })
         });
     }
@@ -95,7 +94,7 @@ class UserController extends BaseController{
 
     addFailedLoginAttempt(user){
         user.loginAttempts+=1;
-        if(user.loginAttempts>3){
+        if(user.loginAttempts>=3){
             let lock =  new Date().setMinutes(new Date().getMinutes()+5);
             user.lockUntil = lock;
             user.loginAttempts = 0;
@@ -107,11 +106,8 @@ class UserController extends BaseController{
     }
 
     hashPassword(password){
-        //salt value
         const saltRounds = 10;
-        //generate salt
         let salt = bcrypt.genSaltSync(saltRounds);
-        //return hashed password
         return bcrypt.hashSync(password, salt);
     }
 
@@ -296,7 +292,6 @@ class UserController extends BaseController{
 
 
     findUserByEmailInToken(email) {
-
 
         return new Promise((resolve, reject) => {
 

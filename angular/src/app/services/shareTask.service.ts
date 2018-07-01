@@ -5,7 +5,6 @@ import {Board} from "../model/board";
 import {Task} from "../model/task";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import {Router} from "@angular/router";
-import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 
 @Injectable()
@@ -22,7 +21,7 @@ export class ShareTaskService{
     }
 
   shareTaskWith(board:Board){
-    this.headers = this.headers.set('X-Access-Token', Cookie.get("token"));
+    this.headers = this.headers.set('X-Access-Token', localStorage.getItem("token"));
 
       return new Promise((resolve, reject) =>{
         this.http
@@ -41,7 +40,7 @@ export class ShareTaskService{
     }
 
   getFriendsTasks(): void {
-    let token = Cookie.get("token");
+    let token = localStorage.getItem("token");
     this.tasks = [];
     if(token){
       this.getTasksForUser(token).subscribe((res: Task[])=>{

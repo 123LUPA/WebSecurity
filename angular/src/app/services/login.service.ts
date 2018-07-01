@@ -29,7 +29,7 @@ export class LoginService {
             if(data['success']) {
               let token = data['token'];
               let user = data['user'];
-              Cookie.set('token', token );
+              localStorage.setItem('token', token );
               this.router.navigate(['']);
               //seting us
               this.userService.setUser(data['user']);
@@ -44,9 +44,10 @@ export class LoginService {
   }
 
   logout(){
-    Cookie.delete("token");
-    // this.router.navigate(['login']);
+    localStorage.clear();
     this.userService.setUser(null);
+    this.router.navigate(['login']);
+
   }
 
 }

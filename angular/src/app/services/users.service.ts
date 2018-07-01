@@ -5,7 +5,6 @@ import Config from "../../../app-config";
 
 @Injectable()
 export class UsersService {
-  private token = Cookie.get("token");
   private headers = new HttpHeaders();
   private testUrl = Config.nodeApi;
 
@@ -13,7 +12,7 @@ export class UsersService {
   }
   getUsers(){
     let testUrl = this.testUrl + 'users';
-    this.headers = this.headers.set('X-Access-Token', this.token);
+    this.headers = this.headers.set('X-Access-Token', localStorage.getItem("token"));
     return this.http.get(testUrl, {headers: this.headers});
 
   }
