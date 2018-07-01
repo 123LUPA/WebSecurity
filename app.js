@@ -13,7 +13,21 @@ const port = process.env.PORT || 3000;
 let swagger = new Swagger();
 let app = express();
 
-app.use(cors());
+
+var originsWhitelist = [
+    'http://localhost:4200',      //this is my front-end url for development
+    'https://angular.sevenamstudio.com/#/'
+];
+var corsOptions = {
+    origin: function(origin, callback){
+        var isWhitelisted = originsWhitelist.indexOf(origin) !== -1;
+        callback(null, isWhitelisted);
+    },
+    credentials:true
+}
+//here is the magic
+app.use(cors(corsOptions));
+
 app.use(bodyParser.json({limit: '1mb'}) );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true,
